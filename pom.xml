@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dk.nykredit</groupId>
+        <artifactId>nykredit-master-pom</artifactId>
+        <version>11.6.1</version>
+    </parent>
+
+    <groupId>parameter-management-platform</groupId>
+    <artifactId>pmp</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.2-SNAPSHOT</version>
+
+    <scm>
+        <connection>scm:git:https://git.tools.nykredit.it/scm/condev/parameter-management-platform.git</connection>
+        <developerConnection>scm:git:https://git.tools.nykredit.it/scm/condev/parameter-management-platform.git</developerConnection>
+        <url>https://git.tools.nykredit.it/scm/condev/parameter-management-platform.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <!-- Dependencies -->
+        <jakarta.enterprise.cdi-api.version>2.0.2</jakarta.enterprise.cdi-api.version>
+        <jakarta.inject-api.version>1.0.5</jakarta.inject-api.version>
+        <jakarta.persistence-api.version>2.2.3</jakarta.persistence-api.version>
+        <jakarta.transaction-api.version>1.3.3</jakarta.transaction-api.version>
+        <lombok.version>1.18.28</lombok.version>
+
+        <!-- Dependency versions used for testing or reporting -->
+        <com.h2database.h2.version>2.2.220</com.h2database.h2.version>
+        <commons-dbutils.version>1.8.0</commons-dbutils.version>
+        <junit.version>5.10.0</junit.version>
+        <org.mockito.version>5.1.1</org.mockito.version>
+        <org.hibernate.version>5.6.15.Final</org.hibernate.version>
+        <org.liquibase.version>4.23.1</org.liquibase.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <uk.org.lidalia.slf4j-test>1.2.0</uk.org.lidalia.slf4j-test>
+        <weld-se-core.version>3.1.9.Final</weld-se-core.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${jakarta.enterprise.cdi-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta.inject-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>${jakarta.persistence-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.transaction</groupId>
+                <artifactId>jakarta.transaction-api</artifactId>
+                <version>${jakarta.transaction-api.version}</version>
+            </dependency>
+
+            <!--Test dependencies-->
+            <dependency>
+                <groupId>org.jboss.weld.se</groupId>
+                <artifactId>weld-se-core</artifactId>
+                <version>${weld-se-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${org.hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${com.h2database.h2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uk.org.lidalia</groupId>
+                <artifactId>slf4j-test</artifactId>
+                <version>${uk.org.lidalia.slf4j-test}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-dbutils</groupId>
+                <artifactId>commons-dbutils</artifactId>
+                <version>${commons-dbutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${org.liquibase.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${org.mockito.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>pmp-core</module>
+        <module>pmp-component-tests</module>
+    </modules>
+</project>

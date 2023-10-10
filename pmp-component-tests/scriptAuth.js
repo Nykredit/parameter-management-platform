@@ -1,0 +1,1 @@
+client.global.set("oauth-token", response.body.access_token)

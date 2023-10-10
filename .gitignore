@@ -1,0 +1,31 @@
+# General
+/bower_components
+/node_modules
+/appdata
+target/
+npm-debug.log
+.version.json
+**/target/
+env.properties
+bin/
+tmp/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IDEA
+*.iml
+*.iws
+*.ipr
+.idea/
+.idea_modules/
+
+# NetBeans
+nbproject/
+nbactions.xml
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode

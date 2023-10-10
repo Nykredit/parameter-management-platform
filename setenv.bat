@@ -1,0 +1,1 @@
+call cfg wlserver 14 jdk 11 maven 3
