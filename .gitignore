@@ -29,3 +29,6 @@ nb-configuration.xml
 
 # Visual Studio Code
 .vscode
+
+# .client has its own gitignore
+!pmp-client/.vscode
