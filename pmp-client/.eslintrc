@@ -11,6 +11,7 @@
         "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-empty-interface": 0,
         "@typescript-eslint/no-explicit-any": 1,
-        "@typescript-eslint/ban-types": [2, { "types": { "{}": false } }] // Allow using {}
+        "@typescript-eslint/ban-types": [2, { "types": { "{}": false } }], // Allow using {}
+        "@typescript-eslint/no-unused-vars": [1, { "argsIgnorePattern": "^_" }]
     }
 }
