@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "."
+    },
+    {
+      "name": "PMP Core",
+      "path": "pmp-core"
+    },
+    {
+      "name": "PMP Component Tests",
+      "path": "pmp-component-tests"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "pmp-core": true,
+      "pmp-component-tests": true
+    }
+  }
+}
