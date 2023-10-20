@@ -5,6 +5,10 @@
       "path": "."
     },
     {
+      "name": "PMP Client",
+      "path": "pmp-client"
+    },
+    {
       "name": "PMP Core",
       "path": "pmp-core"
     },
@@ -15,6 +19,7 @@
   ],
   "settings": {
     "files.exclude": {
+      "pmp-client": true,
       "pmp-core": true,
       "pmp-component-tests": true
     }
