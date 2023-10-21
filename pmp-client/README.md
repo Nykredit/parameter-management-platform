@@ -1,27 +1,13 @@
-# React + TypeScript + Vite
+# PMP Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web client for the PMP project.
 
-Currently, two official plugins are available:
+## Development
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The client is set up to follow Nykredit's frontend stack, as presented at a DEB guest lecture in oktober 2023. The key libraries are [React](https://react.dev/), [React Router](https://reactrouter.com/en/main), and [RMWC](https://rmwc.io/), utilising [Tanstack Query](https://tanstack.com/query/latest) for data fetching and [MSAL React](https://github.com/AzureAD/microsoft-authentication-library-for-js) for authentication.
 
-## Expanding the ESLint configuration
+Currently unused technologies from Nykredt's stack include [React Hook Form](https://react-hook-form.com/) for form handling, and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+In addition to Nykredit's stack, [Tailwindcss](https://tailwindcss.com/) is used for consistent styling, and the native fetch is replaced with [axios](https://axios-http.com/) for better pairing with Tanstack Query.
 
--   Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
--   Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
--   Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
--   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Structure
