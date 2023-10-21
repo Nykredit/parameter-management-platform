@@ -14,6 +14,16 @@ In addition to Nykredit's stack, [Tailwindcss](https://tailwindcss.com/) is used
 
 ### Structure
 
+| Directory      | Description                                                                                                                                                                      |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public`       | Static files.                                                                                                                                                                    |
+| `src`          | Source code.                                                                                                                                                                     |
+| `src/assets  ` | Assets which should be inlined in source code.                                                                                                                                   |
+| `src/features` | Reusable react hooks and components.                                                                                                                                             |
+| `src/routes`   | Routing and pages. Directory structure aims to mimic the corresponding routing segments.<br>Unlike `src/features`, components written here serve a single, non-reusable purpose. |
+| `src/types`    | Types and type predicates used globally across the app. Local types are defined where they are used.                                                                             |
+| `src/utils`    | General utility functions which do not fit anywhere else, e.g. `capitalizeFirstLetter()`                                                                                         |
+
 ### Notes on dependencies
 
 RMWC [recommends installing components individually](https://rmwc.io/installation). This has not been done in this project, to ease development for developers not familiar with using component frameworks. This means that the bundle size is larger than it could be, but as the client is not customer facing, this is not a priority. Likewise, ESLint rules for tree shaking are not enabled, and RMWC style sheets are all imported in `src/app.tsx`.
