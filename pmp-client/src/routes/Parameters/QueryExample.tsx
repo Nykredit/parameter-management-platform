@@ -1,6 +1,10 @@
 import useSimpleQuery from '../../features/network/useSimpleQuery';
 import { z } from 'zod';
 
+/**
+ * An example parser
+ * Creates a zod schema for an array of posts, which can be used to validate the response of a query
+ */
 const postParser = z.array(
     z.object({
         userId: z.number(),
@@ -10,6 +14,9 @@ const postParser = z.array(
     })
 );
 
+/**
+ * Full example of a component fetching, validating, and displaying data from an API
+ */
 const QueryExample = () => {
     const {
         data: posts,
@@ -17,6 +24,7 @@ const QueryExample = () => {
         error
     } = useSimpleQuery(['queryExample'], 'https://jsonplaceholder.typicode.com/posts', postParser);
 
+    // While waiting for the first set of data to arrive, display a loading message
     if (isPending) {
         return (
             <div>
@@ -25,6 +33,7 @@ const QueryExample = () => {
         );
     }
 
+    // If there was an error with the request, display it. This includes both network errors and validation errors
     if (error) {
         return (
             <div>
@@ -33,6 +42,7 @@ const QueryExample = () => {
         );
     }
 
+    // Everything is fine, display the data
     return (
         <div>
             <p>Posts:</p>
