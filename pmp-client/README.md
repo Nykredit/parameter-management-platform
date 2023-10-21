@@ -27,3 +27,5 @@ In addition to Nykredit's stack, [Tailwindcss](https://tailwindcss.com/) is used
 ### Notes on dependencies
 
 RMWC [recommends installing components individually](https://rmwc.io/installation). This has not been done in this project, to ease development for developers not familiar with using component frameworks. This means that the bundle size is larger than it could be, but as the client is not customer facing, this is not a priority. Likewise, ESLint rules for tree shaking are not enabled, and RMWC style sheets are all imported in `src/app.tsx`.
+
+RMWC also doesn't properly support react 18 strict mode, which as such has been disabled in `src/index.ts`
