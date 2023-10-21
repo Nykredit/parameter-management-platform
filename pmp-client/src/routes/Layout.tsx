@@ -23,7 +23,11 @@ const Layout = () => {
 
                         {/** This expression is similar to the commented one below, automatically generating the buttons fron the list of valid environments */}
                         {VALID_ENVIRONMENTS.map((env) => (
-                            <button className='bg-gray-300 rounded-3xl pl-2 pr-2' onClick={() => setEnvironment(env)}>
+                            <button
+                                key={env}
+                                className='bg-gray-300 rounded-3xl pl-2 pr-2'
+                                onClick={() => setEnvironment(env)}
+                            >
                                 {env.charAt(0).toUpperCase() + env.slice(1)}
                             </button>
                         ))}
