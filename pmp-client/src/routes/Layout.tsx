@@ -10,6 +10,8 @@ import {
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useEnvironment, { Environment, VALID_ENVIRONMENTS } from '../features/environment/useEnvironment';
 
+import { capitaliseFirstLetter } from '../utils/string';
+
 const Layout = () => {
     const { environment, isValid } = useEnvironment();
     const navigate = useNavigate();
@@ -24,9 +26,7 @@ const Layout = () => {
             <TopAppBar fixed>
                 <TopAppBarRow>
                     <TopAppBarSection alignStart className='bg-red-500'>
-                        <TopAppBarTitle>
-                            {environment.charAt(0).toUpperCase() + environment.substring(1)}
-                        </TopAppBarTitle>
+                        <TopAppBarTitle>{capitaliseFirstLetter(environment)}</TopAppBarTitle>
                     </TopAppBarSection>
                     <TopAppBarSection alignStart className='bg-red-300'>
                         <Button tag={Link} to={`/${environment}/parameters`} label={'Parameters'} />
@@ -52,7 +52,7 @@ const Layout = () => {
                                 className='bg-gray-300 rounded-3xl pl-2 pr-2'
                                 onClick={() => setEnvironment(env)}
                             >
-                                {env.charAt(0).toUpperCase() + env.slice(1)}
+                                {capitaliseFirstLetter(env)}
                             </button>
                         ))}
 
