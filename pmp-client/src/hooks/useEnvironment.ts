@@ -8,7 +8,9 @@ export enum Environment {
     INVALID = 'invalid'
 }
 
-const VALID_ENVIRONMENTS = [Environment.TEST, Environment.DEV, Environment.PREPROD, Environment.PROD];
+export const ENVIRONMENTS = Object.values(Environment);
+
+export const VALID_ENVIRONMENTS = [Environment.TEST, Environment.DEV, Environment.PREPROD, Environment.PROD];
 
 export const isEnvironmentValid = (environment: string) => {
     return VALID_ENVIRONMENTS.includes(environment as Environment);

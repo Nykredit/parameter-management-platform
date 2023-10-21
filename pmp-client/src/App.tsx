@@ -1,7 +1,7 @@
+import { ENVIRONMENTS, Environment } from './hooks/useEnvironment';
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 
 import AuditPage from './routes/Audit/AuditPage';
-import { Environment } from './hooks/useEnvironment';
 import ErrorPage from './routes/ErrorPage';
 import Layout from './routes/Layout';
 import ParametersPage from './routes/Parameters/ParametersPage';
@@ -33,12 +33,16 @@ const router = createBrowserRouter([
                 throw new Error('Matched environment route with no environment param');
             }
 
+            // None of the below routes will match if environment is not followed by another path segment,
+            if (/^(https?):\/\/[^/]+\/[^/]+\/?$/.test(request.url)) {
+                throw new Response('', {
+                    status: 404,
+                    statusText: 'Not Found'
+                });
+            }
+
             // Redirect to Enviroment.INVALID if environment is not recognized
-            if (
-                !Object.entries(Environment)
-                    .map((e) => e[1] as string)
-                    .includes(params.environment)
-            ) {
+            if (!ENVIRONMENTS.includes(params.environment as Environment)) {
                 return redirect(request.url.replace(params.environment, Environment.INVALID));
             }
 
