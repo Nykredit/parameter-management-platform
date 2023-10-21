@@ -1,4 +1,4 @@
-import { ENVIRONMENTS, Environment } from '../features/environment/useEnvironment';
+import { ENVIRONMENTS, Environment } from '../features/environment/environment';
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 
 import AuditPage from './Audit/AuditPage';
