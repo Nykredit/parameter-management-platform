@@ -1,5 +1,5 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
+    Button,
     TopAppBar,
     TopAppBarActionItem,
     TopAppBarFixedAdjust,
@@ -7,6 +7,7 @@ import {
     TopAppBarSection,
     TopAppBarTitle
 } from 'rmwc';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useEnvironment, { Environment, VALID_ENVIRONMENTS } from '../hooks/useEnvironment';
 
 const Layout = () => {
@@ -27,8 +28,9 @@ const Layout = () => {
                             {environment.charAt(0).toUpperCase() + environment.substring(1)}
                         </TopAppBarTitle>
                     </TopAppBarSection>
-                    <TopAppBarSection alignStart>
-                        <TopAppBarTitle>Other</TopAppBarTitle>
+                    <TopAppBarSection alignStart className='bg-red-300'>
+                        <Button tag={Link} to={`/${environment}/parameters`} label={'Parameters'} />
+                        <Button tag={Link} to={`/${environment}/audit`} label={'Audit'} />
                     </TopAppBarSection>
                     <TopAppBarSection alignEnd>
                         <TopAppBarActionItem icon='favorite' />
