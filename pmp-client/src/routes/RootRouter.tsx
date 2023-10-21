@@ -1,4 +1,4 @@
-import { ENVIRONMENTS, Environment } from '../hooks/useEnvironment';
+import { ENVIRONMENTS, Environment } from '../features/environment/useEnvironment';
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 
 import AuditPage from './Audit/AuditPage';

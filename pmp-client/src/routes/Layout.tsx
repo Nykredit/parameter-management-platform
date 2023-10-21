@@ -8,7 +8,7 @@ import {
     TopAppBarTitle
 } from 'rmwc';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import useEnvironment, { Environment, VALID_ENVIRONMENTS } from '../hooks/useEnvironment';
+import useEnvironment, { Environment, VALID_ENVIRONMENTS } from '../features/environment/useEnvironment';
 
 const Layout = () => {
     const { environment, isValid } = useEnvironment();
