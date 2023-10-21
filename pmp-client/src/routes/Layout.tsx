@@ -1,4 +1,12 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import {
+    TopAppBar,
+    TopAppBarActionItem,
+    TopAppBarFixedAdjust,
+    TopAppBarRow,
+    TopAppBarSection,
+    TopAppBarTitle
+} from 'rmwc';
 import useEnvironment, { Environment, VALID_ENVIRONMENTS } from '../hooks/useEnvironment';
 
 const Layout = () => {
@@ -12,10 +20,24 @@ const Layout = () => {
 
     return (
         <>
-            <div className='bg-gray-500'>
-                <p>App bar goes here</p>
-                <p>Current enviroment: {isValid ? environment : 'invalid'}</p>
-            </div>
+            <TopAppBar fixed>
+                <TopAppBarRow>
+                    <TopAppBarSection alignStart className='bg-red-500'>
+                        <TopAppBarTitle>
+                            {environment.charAt(0).toUpperCase() + environment.substring(1)}
+                        </TopAppBarTitle>
+                    </TopAppBarSection>
+                    <TopAppBarSection alignStart>
+                        <TopAppBarTitle>Other</TopAppBarTitle>
+                    </TopAppBarSection>
+                    <TopAppBarSection alignEnd>
+                        <TopAppBarActionItem icon='favorite' />
+                        <TopAppBarActionItem icon='star' />
+                        <TopAppBarActionItem icon='mood' />
+                    </TopAppBarSection>
+                </TopAppBarRow>
+            </TopAppBar>
+            <TopAppBarFixedAdjust />
             {!isValid && (
                 <>
                     <div>

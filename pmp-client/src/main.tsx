@@ -1,10 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import './index.css';
 
+import App from './App.tsx';
+import ReactDOM from 'react-dom/client';
+
+/** Strict mode disabled as RMWC does not support it */
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+    // <React.StrictMode>
+    <App />
+    // </React.StrictMode>
 );
