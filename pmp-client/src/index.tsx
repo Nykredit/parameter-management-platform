@@ -1,6 +1,6 @@
 import './index.css';
 
-import App from './App.tsx';
+import App from './App';
 import ReactDOM from 'react-dom/client';
 
 /** Strict mode disabled as RMWC does not support it */
