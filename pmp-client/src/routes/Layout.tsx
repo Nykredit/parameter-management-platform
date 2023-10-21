@@ -7,19 +7,16 @@ import {
     TopAppBarSection,
     TopAppBarTitle
 } from 'rmwc';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import useEnvironment, { Environment, VALID_ENVIRONMENTS } from '../features/environment/useEnvironment';
+import { Link, Outlet } from 'react-router-dom';
 
+import { VALID_ENVIRONMENTS } from '../features/environment/environment';
 import { capitaliseFirstLetter } from '../utils/string';
+import useEnvironment from '../features/environment/useEnvironment';
+import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 
 const Layout = () => {
     const { environment, isValid } = useEnvironment();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const setEnvironment = (newEnvironment: Environment) => {
-        navigate(location.pathname.replace(environment, newEnvironment) + location.search + location.hash);
-    };
+    const setEnvironment = useSetEnvironment_UNSAFE();
 
     return (
         <>

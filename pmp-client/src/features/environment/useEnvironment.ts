@@ -1,21 +1,11 @@
+import { Environment, isEnvironmentValid } from './environment';
+
 import { useParams } from 'react-router-dom';
 
-export enum Environment {
-    TEST = 'test',
-    DEV = 'dev',
-    PREPROD = 'preprod',
-    PROD = 'prod',
-    INVALID = 'invalid'
-}
-
-export const ENVIRONMENTS = Object.values(Environment);
-
-export const VALID_ENVIRONMENTS = [Environment.TEST, Environment.DEV, Environment.PREPROD, Environment.PROD];
-
-export const isEnvironmentValid = (environment: string) => {
-    return VALID_ENVIRONMENTS.includes(environment as Environment);
-};
-
+/**
+ * Get the current environment from the URL.
+ * @returns The current environment, and wether it is valid. Purposefully does NOT provide an easy way to change the environment, as that should only be done in very specific circumstances.
+ */
 const useEnvironment = () => {
     const { environment = Environment.INVALID } = useParams<{ environment: Environment }>();
     const isValid = isEnvironmentValid(environment);
