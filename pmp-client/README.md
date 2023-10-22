@@ -38,4 +38,4 @@ File names should directly reflect the names of its contents. In general, this m
 -   Pages and page files are named in PascalCase with the `Page` suffix, e.g. `src/routes/MyPage.tsx`
 -   Hooks and hook files are named in camelCase with the `use` prefix, e.g. `src/features/useMyHook.ts`
 
-Directories are preferably named in all lower case, though exceptions for multiple words are allowed, e.g. `src/features/myFeature`. Directories in `src/routes` are however always named in all lower case, e.g. `src/routes/myroute`.
+Directories are preferably named in all lower case, though exceptions for multiple words are allowed, e.g. `src/features/myFeature`. Directories in `src/routes` are however always named in all lower case to reflect the corresponding route, e.g. `src/routes/myroute`.
