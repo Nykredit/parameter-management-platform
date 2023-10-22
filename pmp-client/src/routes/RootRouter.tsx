@@ -1,12 +1,12 @@
 import { ENVIRONMENTS, Environment } from '../features/environment/environment';
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 
-import AuditPage from './Audit/AuditPage';
+import AuditPage from './audit/AuditPage';
 import ErrorPage from './ErrorPage';
 import Layout from './Layout';
-import ParametersPage from './Parameters/ParametersPage';
-import SignInPage from './SignIn/SignInPage';
-import SignOut from './SignOut/SignOut';
+import ParametersPage from './parameters/ParametersPage';
+import SignInPage from './signin/SignInPage';
+import SignOut from './signout/SignOut';
 
 const router = createBrowserRouter([
     {

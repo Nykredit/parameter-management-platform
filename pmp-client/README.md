@@ -29,3 +29,13 @@ In addition to Nykredit's stack, [Tailwindcss](https://tailwindcss.com/) is used
 RMWC [recommends installing components individually](https://rmwc.io/installation). This has not been done in this project, to ease development for developers not familiar with using component frameworks. This means that the bundle size is larger than it could be, but as the client is not customer facing, this is not a priority. Likewise, ESLint rules for tree shaking are not enabled, and RMWC style sheets are all imported in `src/app.tsx`.
 
 RMWC also doesn't properly support react 18 strict mode, which as such has been disabled in `src/index.ts`
+
+### Naming conventions
+
+File names should directly reflect the names of its contents. In general, this means naming the file after the default export, e.g. `src/features/MyComponent.tsx` exports `MyComponent`.
+
+-   Components and component files are named in PascalCase, e.g. `src/features/MyComponent.tsx`
+-   Pages and page files are named in PascalCase with the `Page` suffix, e.g. `src/routes/MyPage.tsx`
+-   Hooks and hook files are named in camelCase with the `use` prefix, e.g. `src/features/useMyHook.ts`
+
+Directories are preferably named in all lower case, though exceptions for multiple words are allowed, e.g. `src/features/myFeature`. Directories in `src/routes` are however always named in all lower case, e.g. `src/routes/myroute`.
