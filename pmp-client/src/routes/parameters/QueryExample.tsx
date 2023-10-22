@@ -46,11 +46,7 @@ const QueryExample = () => {
     return (
         <div>
             <p>Posts:</p>
-            <ul>
-                {posts?.map((post) => (
-                    <li key={post.id}>{post.title}</li>
-                ))}
-            </ul>
+            <ul>{posts?.map((post) => <li key={post.id}>{post.title}</li>)}</ul>
         </div>
     );
 };
