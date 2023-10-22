@@ -2,7 +2,8 @@ import { expect, test } from '@playwright/test';
 
 test('corrects invalid environments', async ({ page }) => {
     const environment = 'this is not a valid environment';
-    await page.goto(`http://localhost:5173/${environment}/parameters`);
+    await page.goto(`/${environment}/parameters`);
 
-    expect(page.url()).toBe('http://localhost:5173/invalid/parameters');
+    const url = new URL(page.url());
+    expect(url.pathname).toBe('/invalid/parameters');
 });
