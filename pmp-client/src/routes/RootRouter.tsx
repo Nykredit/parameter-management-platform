@@ -45,8 +45,12 @@ const router = createBrowserRouter([
                     }
 
                     // Redirect to Enviroment.INVALID if environment is not recognized
-                    if (!ENVIRONMENTS.includes(params.environment as Environment)) {
-                        return redirect(request.url.replace(params.environment, Environment.INVALID));
+                    if (!ENVIRONMENTS.includes(params.environment.toLowerCase() as Environment)) {
+                        const newUrl = request.url.replace(
+                            /^(https?:\/\/[^/]+\/)([^/]*)(.*)$/,
+                            `$1${Environment.INVALID}$3`
+                        );
+                        return redirect(newUrl);
                     }
 
                     return null;

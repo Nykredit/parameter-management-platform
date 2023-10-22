@@ -39,3 +39,13 @@ File names should directly reflect the names of its contents. In general, this m
 -   Hooks and hook files are named in camelCase with the `use` prefix, e.g. `src/features/useMyHook.ts`
 
 Directories are preferably named in all lower case, though exceptions for multiple words are allowed, e.g. `src/features/myFeature`. Directories in `src/routes` are however always named in all lower case to reflect the corresponding route, e.g. `src/routes/myroute`.
+
+## Testing
+
+### Unit and Integration tests
+
+Unit and integration tests are written using [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/). Tests are located in the same directory as the code they test, with the suffix `.test.ts` or `.test.tsx`.
+
+### End-to-end tests
+
+End-to-end tests are written using [Playwright](https://playwright.dev/). E2E tests are located in the `tests` directory, and are named in camelCase with the `test` suffix, e.g. `e2e/myTest.test.ts`.
