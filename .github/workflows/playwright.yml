@@ -15,7 +15,7 @@ jobs:
           node-version: 18
       - name: Install dependencies
         working-directory: pmp-client
-        run: cd pmp-clientnpm ci
+        run: npm ci
       - name: Install Playwright Browsers
         working-directory: pmp-client
         run: npx playwright install --with-deps
