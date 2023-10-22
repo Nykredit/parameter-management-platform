@@ -23,6 +23,7 @@ In addition to Nykredit's stack, [Tailwindcss](https://tailwindcss.com/) is used
 | `src/routes`   | Routing and pages. Directory structure aims to mimic the corresponding routing segments.<br>Unlike `src/features`, components written here serve a single, non-reusable purpose. |
 | `src/types`    | Types and type predicates used globally across the app. Local types are defined where they are used.                                                                             |
 | `src/utils`    | General utility functions which do not fit anywhere else, e.g. `capitalizeFirstLetter()`                                                                                         |
+| `tests`        | End-to-end tests.                                                                                                                                                                |
 
 ### Notes on dependencies
 
