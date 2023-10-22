@@ -48,4 +48,4 @@ Unit and integration tests are written using [Vitest](https://vitest.dev/) and [
 
 ### End-to-end tests
 
-End-to-end tests are written using [Playwright](https://playwright.dev/). E2E tests are located in the `tests` directory, and are named in camelCase with the `test` suffix, e.g. `e2e/myTest.test.ts`.
+End-to-end tests are written using [Playwright](https://playwright.dev/). E2E tests are located in the `tests` directory.
