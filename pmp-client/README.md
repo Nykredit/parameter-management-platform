@@ -49,4 +49,14 @@ Unit and integration tests are written using [Vitest](https://vitest.dev/) and [
 
 ### End-to-end tests
 
-End-to-end tests are written using [Playwright](https://playwright.dev/). E2E tests are located in the `tests` directory.
+End-to-end tests are written using [Playwright](https://playwright.dev/). E2E tests are located in the `tests` directory. Playwright depends on a list of browsers being installed on the system, with this project being set up to test on `chromium`, `firefox`, and `webkit`.
+
+#### Installation - Windows / MacOS / Ubuntu
+
+To install playwright dependencies, run `npx playwright install --withdeps`.
+
+#### Installation - Other linux distros
+
+The `--with-deps` flag does not work onlinux distros other than Ubuntu. To install playwright dependencies, run `npx playwright install`, and then manually install any missing dependencies listed when running `npm run test:e2e`.
+
+Not all dependencies are needed to run the tests, as most dependencies are only needed for specific browsers. GitHub Actions is set up to run the tests on all three browsers, so any browsers missing in local test runs will still be tested in CI.
