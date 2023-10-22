@@ -9,11 +9,16 @@ import {
 } from 'rmwc';
 import { Link, Outlet } from 'react-router-dom';
 
-import { VALID_ENVIRONMENTS } from '../features/environment/environment';
+import { Environment } from '../features/environment/environment';
 import { capitaliseFirstLetter } from '../utils/string';
 import useEnvironment from '../features/environment/useEnvironment';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 
+/**
+ * Root layout encompassing the entire app
+ *
+ * Adds a top app bar for navigation and prohibits the user from navigating to any page before picking an environment
+ */
 const Layout = () => {
     const { environment, isValid } = useEnvironment();
     const setEnvironment = useSetEnvironment_UNSAFE();
@@ -25,10 +30,12 @@ const Layout = () => {
                     <TopAppBarSection alignStart className='bg-red-500'>
                         <TopAppBarTitle>{capitaliseFirstLetter(environment)}</TopAppBarTitle>
                     </TopAppBarSection>
-                    <TopAppBarSection alignStart className='bg-red-300'>
-                        <Button tag={Link} to={`/${environment}/parameters`} label={'Parameters'} />
-                        <Button tag={Link} to={`/${environment}/audit`} label={'Audit'} />
-                    </TopAppBarSection>
+                    {isValid && (
+                        <TopAppBarSection alignStart className='bg-red-300'>
+                            <Button tag={Link} to={`/${environment}/parameters`} label={'Parameters'} />
+                            <Button tag={Link} to={`/${environment}/audit`} label={'Audit'} />
+                        </TopAppBarSection>
+                    )}
                     <TopAppBarSection alignEnd>
                         <TopAppBarActionItem icon='favorite' />
                         <TopAppBarActionItem icon='star' />
@@ -39,24 +46,21 @@ const Layout = () => {
             <TopAppBarFixedAdjust />
             {!isValid && (
                 <>
-                    <div>
-                        <p>To proceed, please pick an environment</p>
+                    <div className='prose max-w-full'>
+                        <h3>To proceed, please pick an environment</h3>
 
-                        {/** This expression is similar to the commented one below, automatically generating the buttons fron the list of valid environments */}
-                        {VALID_ENVIRONMENTS.map((env) => (
-                            <button
-                                key={env}
-                                className='bg-gray-300 rounded-3xl pl-2 pr-2'
-                                onClick={() => setEnvironment(env)}
-                            >
-                                {capitaliseFirstLetter(env)}
-                            </button>
-                        ))}
-
-                        {/* <button onClick={() => setEnvironment(Environment.TEST)}>Test</button>
-                        <button onClick={() => setEnvironment(Environment.DEV)}>Dev</button>
-                        <button onClick={() => setEnvironment(Environment.PREPROD)}>Preprod</button>
-                        <button onClick={() => setEnvironment(Environment.PROD)}>Prod</button> */}
+                        <Button raised onClick={() => setEnvironment(Environment.TEST)}>
+                            Test
+                        </Button>
+                        <Button outlined onClick={() => setEnvironment(Environment.DEV)}>
+                            Dev
+                        </Button>
+                        <Button outlined danger onClick={() => setEnvironment(Environment.PREPROD)}>
+                            Preprod
+                        </Button>
+                        <Button raised danger onClick={() => setEnvironment(Environment.PROD)}>
+                            Prod
+                        </Button>
                     </div>
                 </>
             )}
