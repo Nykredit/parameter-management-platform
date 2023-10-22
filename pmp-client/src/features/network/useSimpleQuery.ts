@@ -3,11 +3,6 @@ import { QueryKey, UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { z } from 'zod';
 
-type UseSimpleQuery = {
-    <TData>(queryKey: QueryKey, url: string): UseQueryResult<TData>;
-    <TParser extends z.ZodType>(queryKey: QueryKey, url: string, parser: TParser): UseQueryResult<z.infer<TParser>>;
-};
-
 /**
  * An abstraction over react-query's useQuery hook, which makes it easier to make simple, validated get requests
  * @param queryKey The query key to use for the request. This is used to identify the request in react-query's cache.
@@ -16,7 +11,13 @@ type UseSimpleQuery = {
  *
  * @returns A UseQueryResult object, identical to the one returned by react-query's useQuery hook.
  */
-const useSimpleQuery = (<TData>(queryKey: QueryKey, url: string, parser?: z.ZodType<TData>) => {
+function useSimpleQuery<TData>(queryKey: QueryKey, url: string): UseQueryResult<TData>;
+function useSimpleQuery<TParser extends z.ZodType>(
+    queryKey: QueryKey,
+    url: string,
+    parser: TParser
+): UseQueryResult<z.infer<TParser>>;
+function useSimpleQuery<TData>(queryKey: QueryKey, url: string, parser?: z.ZodType<TData>) {
     return useQuery({
         queryKey,
         queryFn: async () => {
@@ -25,6 +26,6 @@ const useSimpleQuery = (<TData>(queryKey: QueryKey, url: string, parser?: z.ZodT
             return response.data;
         }
     });
-}) as UseSimpleQuery;
+}
 
 export default useSimpleQuery;
