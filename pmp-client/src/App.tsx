@@ -1,7 +1,4 @@
-import '@rmwc/theme/styles';
-import '@rmwc/top-app-bar/styles';
-import '@rmwc/button/styles';
-import '@rmwc/icon/styles';
+import 'rmwc/dist/styles';
 
 import { QueryProvider } from './features/network/query';
 import RMWCComnponentProvider from './features/theme/RMWCComponentProvider';

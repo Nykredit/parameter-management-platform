@@ -23,8 +23,8 @@ const Layout = () => {
                         <TopAppBarTitle>Title goes here</TopAppBarTitle>
                     </TopAppBarSection>
                     <TopAppBarSection alignStart>
-                        <Button tag={Link} to={`/parameters`} label={'Parameters'} />
-                        <Button tag={Link} to={`/audit`} label={'Audit'} />
+                        <Button unelevated tag={Link} to={`/parameters`} label={'Parameters'} />
+                        <Button unelevated tag={Link} to={`/audit`} label={'Audit'} />
                     </TopAppBarSection>
                     <TopAppBarSection alignEnd>
                         <TopAppBarActionItem icon='favorite' />
