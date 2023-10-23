@@ -1,15 +1,14 @@
-import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+
+import { PlaywrightTestConfig, defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+dotenv.config();
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-export default defineConfig({
+const config: PlaywrightTestConfig<{}, {}> = {
     testDir: './tests',
     /* Run tests in files in parallel */
     fullyParallel: true,
@@ -54,4 +53,12 @@ export default defineConfig({
         url: 'http://localhost:4173',
         reuseExistingServer: !process.env.CI
     }
-});
+};
+
+// Filter out disabled browsers
+config.projects = config.projects?.filter((project) => !process.env['PLAYWRIGHT_NO_' + project.name?.toUpperCase()]);
+
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
+export default defineConfig(config);
