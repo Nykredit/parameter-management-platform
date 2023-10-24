@@ -1,3 +1,4 @@
+import { ENVIRONMENTS, Environment } from '../features/environment/environment';
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 
 import AuditPage from './audit/AuditPage';
@@ -13,6 +14,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
+                path: '/',
+                loader: () => {
+                    return redirect(`/${Environment.INVALID}/parameters`);
+                }
+            },
+            {
                 path: '/signin',
                 element: <SignInPage />
             },
@@ -21,21 +28,40 @@ const router = createBrowserRouter([
                 element: <SignOut />
             },
             {
-                path: '/',
+                path: '/:environment/',
                 element: <Layout />,
+                loader: ({ request, params }) => {
+                    if (!params.environment) {
+                        // This should never happen. Can only occour if route is misconfigured
+                        throw new Error('Matched environment route with no environment param');
+                    }
+
+                    // None of the below routes will match if environment is not followed by another path segment,
+                    if (/^(https?):\/\/[^/]+\/[^/]+\/?$/.test(request.url)) {
+                        throw new Response('', {
+                            status: 404,
+                            statusText: 'Not Found'
+                        });
+                    }
+
+                    // Redirect to Enviroment.INVALID if environment is not recognized
+                    if (!ENVIRONMENTS.includes(params.environment.toLowerCase() as Environment)) {
+                        const newUrl = request.url.replace(
+                            /^(https?:\/\/[^/]+\/)([^/]*)(.*)$/,
+                            `$1${Environment.INVALID}$3`
+                        );
+                        return redirect(newUrl);
+                    }
+
+                    return null;
+                },
                 children: [
                     {
-                        path: '/',
-                        loader: () => {
-                            return redirect(`/parameters`);
-                        }
-                    },
-                    {
-                        path: '/parameters',
+                        path: 'parameters',
                         element: <ParametersPage />
                     },
                     {
-                        path: '/audit',
+                        path: 'audit',
                         element: <AuditPage />
                     }
                 ]
