@@ -9,6 +9,19 @@ export enum Environment {
     INVALID = 'invalid'
 }
 
+export enum ReadableEnvironment {
+    TEST = 'Testing',
+    DEV = 'Development',
+    PREPROD = 'Pre-Production',
+    PROD = 'Production',
+    INVALID = 'No Environment'
+}
+
+export const toReadableEnvironment = (environment: Environment): ReadableEnvironment => {
+    const key = Object.keys(Environment).find((key) => Environment[key as keyof typeof Environment] === environment);
+    return ReadableEnvironment[key as keyof typeof ReadableEnvironment];
+};
+
 /**
  * Recognised environments. Includes 'invalid' to represent all invalid environment.
  */
