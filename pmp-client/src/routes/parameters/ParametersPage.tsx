@@ -16,7 +16,9 @@ const ParametersPage = () => {
     return (
         <div>
             <h1>Parameters</h1>
-            <Button raised>Add parameter change</Button>
+            <Button raised onClick={handleClick}>
+                Add parameter change
+            </Button>
             <QueryExample />
         </div>
     );

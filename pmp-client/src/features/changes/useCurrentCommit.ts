@@ -7,7 +7,7 @@ import { persist } from 'zustand/middleware';
 export interface ParameterChange<T> {
     /** Parameter key */
     parameterKey: string;
-    value: T;
+    oldValue: T;
     newValue: T;
 }
 
