@@ -79,7 +79,6 @@ export const createCommitStore = (storageKey: string) => {
             (set, get) => ({
                 ...initialState,
                 addChange: (change) => {
-                    console.log('addChange', change);
                     set((s) => ({
                         changes: [...s.changes, change],
                         __past: [...s.__past, s.changes],
