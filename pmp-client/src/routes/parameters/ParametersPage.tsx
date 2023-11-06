@@ -1,9 +1,12 @@
 import { Button } from 'rmwc';
 import QueryExample from './QueryExample';
-import useCurrentCommit from '../../features/changes/useCurrentCommit';
+import useCommitStore from '../../features/changes/useCommitStore';
 
+/**
+ * Page for displaying and editing parameters.
+ */
 const ParametersPage = () => {
-    const { addChange } = useCurrentCommit();
+    const addChange = useCommitStore((s) => s.addChange);
 
     const handleClick = () => {
         const now = Date.now();

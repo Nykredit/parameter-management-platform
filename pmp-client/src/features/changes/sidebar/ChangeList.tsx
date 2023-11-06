@@ -1,9 +1,12 @@
-import { isParameterChange, isRevert } from '../../../types/predicates/change';
+import { isParameterChange, isRevert } from '../../../utils/predicates/change';
 
-import useCurrentCommit from '../useCurrentCommit';
+import useCommitStore from '../useCommitStore';
 
+/**
+ * Displays a list of changes made in the current commit.
+ */
 const ChangeList = () => {
-    const { changes } = useCurrentCommit();
+    const changes = useCommitStore((s) => s.changes);
 
     return (
         <div>

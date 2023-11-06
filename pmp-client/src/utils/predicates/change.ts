@@ -1,4 +1,4 @@
-import { Change, ParameterChange, Revert } from '../../features/changes/useCurrentCommit';
+import { Change, ParameterChange, ParameterValue, Revert } from '../../features/changes/commitStore';
 
 /**
  * Checks if the given change is a revert.
@@ -14,6 +14,6 @@ export const isRevert = (change: Change): change is Revert => {
  * @param change the change to check.
  * @returns True if the change is a ParameterChange object.
  */
-export const isParameterChange = <T>(change: Change<T>): change is ParameterChange<T> => {
+export const isParameterChange = <T extends ParameterValue>(change: Change<T>): change is ParameterChange<T> => {
     return (change as ParameterChange<T>).parameterKey !== undefined;
 };
