@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+type ParameterValue = { toString(): string };
+
 /**
  * TODO: Move interfaces to a separate file.
  */
-export interface ParameterChange<T> {
+export interface ParameterChange<T extends ParameterValue> {
     /** Parameter key */
     parameterKey: string;
     oldValue: T;
@@ -15,7 +17,7 @@ export interface Revert {
     commitReference: string;
 }
 
-export type Change<T = unknown> = ParameterChange<T> | Revert;
+export type Change<T extends ParameterValue = ParameterValue> = ParameterChange<T> | Revert;
 
 interface State {
     changes: Change[];

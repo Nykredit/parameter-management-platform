@@ -6,9 +6,10 @@ const ParametersPage = () => {
     const { addChange } = useCurrentCommit();
 
     const handleClick = () => {
+        const now = Date.now();
         addChange({
-            parameterKey: 'test',
-            newValue: 'test',
+            parameterKey: now.toString(),
+            newValue: `test-${now}`,
             oldValue: 'test'
         });
     };

@@ -10,7 +10,9 @@ const ChangeList = () => {
             <div>
                 {changes.filter(isParameterChange).map((change) => (
                     <div key={change.parameterKey} className='bg-gray-500'>
-                        <p></p>
+                        <p>{change.parameterKey}</p>
+                        <br />
+                        <p>{change.newValue.toString()}</p>
                     </div>
                 ))}
             </div>
