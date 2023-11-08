@@ -1,0 +1,16 @@
+
+.parameterInput {
+	padding: 10px;
+	margin: 0;
+	height: auto;
+	width: 100%;
+}
+
+
+.parameterTable {
+	width: 100%;
+}
+
+.hidden {
+	visibility: hidden;
+}
