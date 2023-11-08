@@ -2,6 +2,7 @@ import { ENVIRONMENTS, Environment } from '../features/environment/environment';
 import { Outlet, RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 
 import AuditPage from './audit/AuditPage';
+import { CommitStoreProvider } from '../features/changes/commitStoreProvider';
 import ErrorPage from './ErrorPage';
 import { InteractionType } from '@azure/msal-browser';
 import Layout from './Layout';
@@ -34,7 +35,9 @@ const router = createBrowserRouter([
                             interactionType={InteractionType.Redirect}
                             authenticationRequest={redirectRequest}
                         >
-                            <Outlet />
+                            <CommitStoreProvider>
+                                <Outlet />
+                            </CommitStoreProvider>
                         </MsalAuthenticationTemplate>
                     </>
                 ),

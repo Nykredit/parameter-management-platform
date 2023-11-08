@@ -1,16 +1,9 @@
-import {
-    Button,
-    TopAppBar,
-    TopAppBarActionItem,
-    TopAppBarFixedAdjust,
-    TopAppBarRow,
-    TopAppBarSection,
-    TopAppBarTitle
-} from 'rmwc';
-import { Link, Outlet } from 'react-router-dom';
+import { Button, Grid, GridCell } from 'rmwc';
 
+import AppBar from './AppBar';
+import ChangeList from '../features/changes/sidebar/ChangeList';
 import { Environment } from '../features/environment/environment';
-import { capitaliseFirstLetter } from '../utils/string';
+import { Outlet } from 'react-router-dom';
 import useEnvironment from '../features/environment/useEnvironment';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 
@@ -20,30 +13,12 @@ import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_
  * Adds a top app bar for navigation and prohibits the user from navigating to any page before picking an environment
  */
 const Layout = () => {
-    const { environment, isValid } = useEnvironment();
+    const { isValid } = useEnvironment();
     const setEnvironment = useSetEnvironment_UNSAFE();
 
     return (
         <>
-            <TopAppBar fixed>
-                <TopAppBarRow>
-                    <TopAppBarSection alignStart className='bg-red-500'>
-                        <TopAppBarTitle>{capitaliseFirstLetter(environment)}</TopAppBarTitle>
-                    </TopAppBarSection>
-                    {isValid && (
-                        <TopAppBarSection alignStart className='bg-red-300'>
-                            <Button tag={Link} to={`/${environment}/parameters`} label={'Parameters'} />
-                            <Button tag={Link} to={`/${environment}/audit`} label={'Audit'} />
-                        </TopAppBarSection>
-                    )}
-                    <TopAppBarSection alignEnd>
-                        <TopAppBarActionItem icon='favorite' />
-                        <TopAppBarActionItem icon='star' />
-                        <TopAppBarActionItem icon='mood' />
-                    </TopAppBarSection>
-                </TopAppBarRow>
-            </TopAppBar>
-            <TopAppBarFixedAdjust />
+            <AppBar />
             {!isValid && (
                 <>
                     <div className='prose max-w-full'>
@@ -64,7 +39,16 @@ const Layout = () => {
                     </div>
                 </>
             )}
-            {isValid && <Outlet />}
+            {isValid && (
+                <Grid>
+                    <GridCell span={9}>
+                        <Outlet />
+                    </GridCell>
+                    <GridCell span={3}>
+                        <ChangeList />
+                    </GridCell>
+                </Grid>
+            )}
         </>
     );
 };

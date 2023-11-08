@@ -1,3 +1,5 @@
+import { createEnumMapper } from '../../utils/enum';
+
 /**
  * Recognised environments. Includes 'invalid' to represent all invalid environment.
  */
@@ -8,6 +10,31 @@ export enum Environment {
     PROD = 'prod',
     INVALID = 'invalid'
 }
+
+/**
+ * Human readable versions of the environments.
+ */
+export enum ReadableEnvironment {
+    TEST = 'Testing',
+    DEV = 'Development',
+    PREPROD = 'Pre-Production',
+    PROD = 'Production',
+    INVALID = 'No Environment'
+}
+
+/**
+ * Map an environment to its human readable version.
+ * @param environment The environment to map.
+ * @returns The human readable version of the environment.
+ */
+export const toReadableEnvironment = createEnumMapper(Environment, ReadableEnvironment);
+
+/**
+ * Map a human readable environment to its environment.
+ * @param environment The human readable environment to map.
+ * @returns The environment.
+ */
+export const toEnvironment = createEnumMapper(ReadableEnvironment, Environment);
 
 /**
  * Recognised environments. Includes 'invalid' to represent all invalid environment.

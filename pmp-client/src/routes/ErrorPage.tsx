@@ -1,7 +1,10 @@
 import { ErrorResponse, useRouteError } from 'react-router-dom';
 
-import isErrorResponse from '../types/predicates/isErrorResponse';
+import isErrorResponse from '../utils/predicates/isErrorResponse';
 
+/**
+ * General error page at the application root
+ */
 const ErrorPage = () => {
     const error = useRouteError() as ErrorResponse | Error;
     console.error(error);
