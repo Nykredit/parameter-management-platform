@@ -1,11 +1,11 @@
 import { Button, Grid, GridCell } from 'rmwc';
 
 import AppBar from './AppBar';
-import ChangeList from '../features/changes/sidebar/ChangeList';
 import { Environment } from '../features/environment/environment';
 import { Outlet } from 'react-router-dom';
 import useEnvironment from '../features/environment/useEnvironment';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
+import PendingChanges from '../features/changes/sidebar/PendingChanges';
 
 /**
  * Root layout encompassing the entire app
@@ -45,7 +45,7 @@ const Layout = () => {
                         <Outlet />
                     </GridCell>
                     <GridCell span={3}>
-                        <ChangeList />
+                        <PendingChanges />
                     </GridCell>
                 </Grid>
             )}
