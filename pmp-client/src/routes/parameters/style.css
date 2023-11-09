@@ -8,9 +8,19 @@
 
 
 .parameterTable {
+	margin-bottom: 20px;
+	/* margin-left: 20px; */
 	width: 100%;
 }
 
 .hidden {
 	visibility: hidden;
+}
+
+.tableRow {
+	background-color: #00000005;
+}
+
+.serviceListItem {
+	font-weight: bold;
 }

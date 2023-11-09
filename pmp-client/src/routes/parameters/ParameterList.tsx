@@ -4,11 +4,11 @@ import ParameterListRow from "./ParameterListRow";
 
 interface ParameterListProps {
 	parameters: Parameter<unknown>[];
-	onEdit: (parameter: Parameter<unknown>) => void;
+	onParamChange: (parameter: Parameter<unknown>) => void;
 }
 
 const ParameterList = (props: ParameterListProps) => {
-	const { parameters, onEdit } = props;
+	const { parameters, onParamChange } = props;
 
 	return (
 		<DataTable className="parameterTable">
@@ -22,7 +22,7 @@ const ParameterList = (props: ParameterListProps) => {
 				</DataTableHead>
 				<DataTableBody>
 					{parameters.map((parameter) => (
-						<ParameterListRow parameter={parameter}/>
+						<ParameterListRow parameter={parameter} onParamChange={onParamChange}/>
 					))}
 				</DataTableBody>
 			</DataTableContent>

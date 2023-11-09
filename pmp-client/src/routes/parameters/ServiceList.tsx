@@ -1,5 +1,5 @@
 import exp from "constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CollapsibleList, SimpleListItem } from "rmwc";
 import ParameterList from "./ParameterList";
 import { Parameter } from "./types";
@@ -16,9 +16,10 @@ const activeServicesMock = [
 ];
 
 
-const parametersMock = [
+const parametersMock: Parameter<unknown>[] = [
 	{
 		id: "1",
+		service: "service1",
 		name: "key1",
 		type: "number",
 		value: 1,
@@ -26,31 +27,45 @@ const parametersMock = [
 	{
 		id: "2",
 		name: "key2",
+		service: "service1",
 		type: "string",
-		value: "value2",
+		value: "value2erfwsdhfdiweuidsnviuwendiukweds",
 	},
 	{
 		id: "3",
 		name: "key3",
+		service: "service2",
 		type: "boolean",
 		value: "true",
 	},
-] as Parameter<unknown>[];
+];
 
 const ServiceList = () => {
 	// const activeServices = useActiveServices();
 	const activeServices = activeServicesMock;
-	const parameters = parametersMock;
 
+	const [parameters, setParameters] = useState<Parameter<unknown>[]>([]);
+
+	useEffect(() => {
+		setParameters(parametersMock);
+	}, []);
+	
+	const handleParameterChange = (parameter: Parameter<unknown>) => {
+		setParameters(parameters.map((p) => {
+			if (p.id === parameter.id) {
+				return parameter;
+			}
+			return p;
+		}));	
+	};
 
 	return (
 		<>
 			<h2>Parameters</h2>
 			{activeServices.map((serviceName) => (
-				<ServiceListElement parameters={parameters} serviceName={serviceName}/>
+				<ServiceListElement onParamChange={handleParameterChange} parameters={parameters} serviceName={serviceName}/>
 			))
 			}
-
 		</>
 	);
 };

@@ -7,21 +7,24 @@ import { useState } from "react";
 interface ServiceListElementProps {
 	serviceName: string;
 	parameters: Parameter<unknown>[];
+	onParamChange: (parameter: Parameter<unknown>) => void;
 }
 
 const ServiceListElement = (props: ServiceListElementProps) => {
-	const { serviceName, parameters } = props;
+	const { serviceName, parameters, onParamChange } = props;
+	const parametersFromService = parameters.filter((parameter) => parameter.service === serviceName);
 
 	return (
 		<CollapsibleList
 			handle={
 				<SimpleListItem
+					className="serviceListItem"
 					text={serviceName}
 					metaIcon="chevron_right"
 				/>
 			}
 		>
-			<ParameterList parameters={parameters} onEdit={() => { }} />
+			<ParameterList onParamChange={onParamChange} parameters={parametersFromService} />
 		</CollapsibleList>
 	);
 };

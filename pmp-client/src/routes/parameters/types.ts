@@ -1,6 +1,7 @@
 
 export interface Parameter<T> {
 	id: string;
+	service: string;
 	name: string;
 	type: string;
 	value: T;
