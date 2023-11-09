@@ -1,19 +1,36 @@
 import { Button, DataTableCell, DataTableHeadCell, DataTableRow, TextField } from "rmwc";
-import { Parameter } from "./types";
 import "./style.css"
+import { useRef } from "react";
+import { Parameter } from "../../features/parameters/types";
+import useCommitStore from "../../features/changes/useCommitStore";
+import { Service } from "../../features/services/types";
+import { ParameterValue } from "../../features/changes/types";
+
+
 
 interface ParameterListRowProps {
-	parameter: Parameter<unknown>;
-	onParamChange: (parameter: Parameter<unknown>) => void;
+	parameter: Parameter;
+	service: Service;
 }
 
 const ParameterListRow = (props: ParameterListRowProps) => {
-	const { parameter, onParamChange } = props;
+	const { parameter, service } = props;
+	const addParameterChange = useCommitStore((s) => s.addParameterChange);
+	const removeParameterChange = useCommitStore((s) => s.removeParameterChange);
 
-	const change = Math.random() > 0.5 ? false : true;
+	const parameterChange = useCommitStore((s) => s.findParameterChange(service, parameter));
+	const hasChange = parameterChange !== undefined;
+	const value = hasChange ? parameterChange.newValue : parameter.value;
 
+	const handleParamerterChangeReset = () => {
+		removeParameterChange(service, parameterChange!);
+		console.log(parameterChange)
+	};
 
-	const handleParamerterChangeReset = () => { };
+	const handleParameterChange = (newValue: ParameterValue) => {
+		addParameterChange(service, {parameter, newValue});
+	};
+
 
 	return (
 		<DataTableRow className="tableRow">
@@ -23,18 +40,14 @@ const ParameterListRow = (props: ParameterListRowProps) => {
 				<TextField
 					outlined
 					className="parameterInput"
-					value={parameter.value as string | number}
+					value={value as string}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-						onParamChange({
-							...parameter,
-							value: e.target.value,
-						});
-					}} />
+						handleParameterChange(e.target.value)}} />
 				{/* <TextField className="parameterInput" outlined /> */}
 			</DataTableCell>
 			<DataTableCell alignEnd>
 				<Button
-					className={change ? "hidden" : ""}
+					className={!hasChange ? "hidden" : ""}
 					outlined icon="restart_alt"
 					label="reset"
 					onClick={handleParamerterChangeReset}

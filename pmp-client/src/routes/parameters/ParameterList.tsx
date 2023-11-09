@@ -1,19 +1,20 @@
 import { DataTable, DataTableBody, DataTableContent, DataTableHead, DataTableHeadCell, DataTableRow } from "rmwc";
-import { Parameter } from "./types";
 import ParameterListRow from "./ParameterListRow";
+import { Parameter } from "../../features/parameters/types";
+import { Service } from "../../features/services/types";
 
 interface ParameterListProps {
-	parameters: Parameter<unknown>[];
-	onParamChange: (parameter: Parameter<unknown>) => void;
+	parameters: Parameter[];
+	service: Service;
 }
 
 const ParameterList = (props: ParameterListProps) => {
-	const { parameters, onParamChange } = props;
+	const { parameters, service } = props;
 
 	return (
 		<DataTable className="parameterTable">
-			<DataTableContent>
-				<DataTableHead>
+			<DataTableContent className="tableHead">
+				<DataTableHead >
 					<DataTableRow>
 						<DataTableHeadCell className="headCell" >Name</DataTableHeadCell>
 						<DataTableHeadCell className="headCell" >Type</DataTableHeadCell>
@@ -22,7 +23,7 @@ const ParameterList = (props: ParameterListProps) => {
 				</DataTableHead>
 				<DataTableBody>
 					{parameters.map((parameter) => (
-						<ParameterListRow parameter={parameter} onParamChange={onParamChange}/>
+						<ParameterListRow service={service} parameter={parameter} />
 					))}
 				</DataTableBody>
 			</DataTableContent>

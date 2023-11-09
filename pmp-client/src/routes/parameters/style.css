@@ -16,7 +16,6 @@
 
 .headCell {
 	background-color: transparent;
-
 }
 
 .hidden {
@@ -25,6 +24,11 @@
 
 .tableRow {
 	background-color: #00000005;
+}
+
+.tableHead {
+	background-color: #00000005;
+
 }
 
 .serviceListItem {

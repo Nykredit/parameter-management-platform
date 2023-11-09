@@ -1,4 +1,6 @@
-export interface Parameter<T> {
+import { ParameterValue } from "../changes/types";
+
+export interface Parameter<T extends ParameterValue = ParameterValue> {
     id: string;
     name: string;
     type: string;
@@ -6,5 +8,5 @@ export interface Parameter<T> {
 }
 
 export interface ParameterResponse {
-    parameters: Parameter<unknown>[];
+    parameters: Parameter[];
 }

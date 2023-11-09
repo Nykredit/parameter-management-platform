@@ -1,30 +1,56 @@
 import { CollapsibleList, SimpleListItem } from "rmwc";
-import { Parameter } from "./types";
 import ParameterList from "./ParameterList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Parameter } from "../../features/parameters/types";
+import { Service } from "../../features/services/types";
 
+const parametersMock: Parameter[] = [
+	{
+		id: "1",
+		name: "key1",
+		type: "Number",
+		value: 1,
+	},
+	{
+		id: "2",
+		name: "key2",
+		type: "String",
+		value: "value2erfwsdhfdiweuidsnviuwendiukweds",
+	},
+	{
+		id: "3",
+		name: "key3",
+		type: "Boolean",
+		value: "true",
+	},
+];
 
 interface ServiceListElementProps {
-	serviceName: string;
-	parameters: Parameter<unknown>[];
-	onParamChange: (parameter: Parameter<unknown>) => void;
+	service: Service;
 }
 
 const ServiceListElement = (props: ServiceListElementProps) => {
-	const { serviceName, parameters, onParamChange } = props;
-	const parametersFromService = parameters.filter((parameter) => parameter.service === serviceName);
+	const { service } = props;
+	const [parameters, setParameters] = useState<Parameter[]>([]);
+
+	useEffect(() => {
+		// Use fetch instead of mock
+		setParameters(parametersMock);
+	}, []);
+
+	const hasParms = parameters.length > 0;
 
 	return (
 		<CollapsibleList
 			handle={
 				<SimpleListItem
 					className="serviceListItem"
-					text={serviceName}
+					text={service.name}
 					metaIcon="chevron_right"
 				/>
 			}
 		>
-			<ParameterList onParamChange={onParamChange} parameters={parametersFromService} />
+			{hasParms && <ParameterList service={service} parameters={parameters} />}
 		</CollapsibleList>
 	);
 };
