@@ -15,9 +15,9 @@ const ParameterList = (props: ParameterListProps) => {
 			<DataTableContent>
 				<DataTableHead>
 					<DataTableRow>
-						<DataTableHeadCell>Name</DataTableHeadCell>
-						<DataTableHeadCell>Type</DataTableHeadCell>
-						<DataTableHeadCell>Value</DataTableHeadCell>
+						<DataTableHeadCell className="headCell" >Name</DataTableHeadCell>
+						<DataTableHeadCell className="headCell" >Type</DataTableHeadCell>
+						<DataTableHeadCell className="headCell" >Value</DataTableHeadCell>
 					</DataTableRow>
 				</DataTableHead>
 				<DataTableBody>

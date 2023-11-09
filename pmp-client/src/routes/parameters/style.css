@@ -11,6 +11,12 @@
 	margin-bottom: 20px;
 	/* margin-left: 20px; */
 	width: 100%;
+	background-color: transparent;
+}
+
+.headCell {
+	background-color: transparent;
+
 }
 
 .hidden {
@@ -24,3 +30,7 @@
 .serviceListItem {
 	font-weight: bold;
 }
+
+/* .paramPage {
+	background-color: rgb(202, 255, 237);
+} */

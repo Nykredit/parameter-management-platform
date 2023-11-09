@@ -32,7 +32,7 @@ const ParametersPage = () => {
     };
 
     return (
-        <div>
+        <div className='paramPage'>
             <h1>Parameters</h1>
             <Button raised onClick={handleClick}>
                 Add parameter change
