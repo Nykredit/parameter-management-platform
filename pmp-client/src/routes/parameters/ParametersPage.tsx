@@ -34,9 +34,6 @@ const ParametersPage = () => {
     return (
         <div className='paramPage'>
             <h1>Parameters</h1>
-            <Button raised onClick={handleClick}>
-                Add parameter change
-            </Button>
 			<ServiceList />
         </div>
     );

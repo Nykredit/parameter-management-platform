@@ -18,6 +18,7 @@ const Input = (props: InputProps) => {
 	if (InputTextFieldTypes.includes(type))
 		return (<TextField
 			invalid={!isValid}
+			type={type === ParameterType.STRING ? "text" : "number"}
 			outlined
 			className={"parameterInput" + (isValid ? "" : " invalid")}
 			value={value as string}

@@ -1,8 +1,10 @@
 import { CollapsibleList, SimpleListItem } from "rmwc";
 import ParameterList from "./ParameterList";
 import { useEffect, useRef, useState } from "react";
-import { Parameter, ParameterType } from "../../features/parameters/types";
+import { Parameter, ParameterFilter, ParameterType } from "../../features/parameters/types";
 import { Service } from "../../features/services/types";
+import useParameterQuery from "../../features/parameters/useParameterQuery";
+import filterParameters from "../../features/parameters/filterParameters";
 
 const parametersMock: Parameter[] = [
 	{
@@ -53,20 +55,9 @@ interface ServiceListElementProps {
 	service: Service;
 }
 
-const ServiceListElement = (props: ServiceListElementProps) => {
-	const { service } = props;
-	const [parameters, setParameters] = useState<Parameter[]>([]);
-
-	useEffect(() => {
-		// Use fetch instead of mock
-		setParameters(parametersMock);
-	}, []);
-
-	// const parameters = fetchParameters(service);
-
+const ServiceListElement = ({ service }: ServiceListElementProps) => {
+	const { data: parameters } = useParameterQuery(service);
 	const hasParms = parameters.length > 0;
-
-	const ref = useRef<HTMLElement>(null);
 
 	return (
 		<CollapsibleList
