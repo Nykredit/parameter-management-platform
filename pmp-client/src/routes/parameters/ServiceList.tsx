@@ -5,6 +5,7 @@ import useEnvironment from "../../features/environment/useEnvironment";
 import { useEffect, useState } from "react";
 import { boolean } from "zod";
 import { Button } from "rmwc";
+import useSelectedServices from "../../features/services/useSelectedServices";
 
 
 const servicesMock: Service[] = [
@@ -37,10 +38,7 @@ interface ColapseState {
 
 
 const ServiceList = () => {
-	// const [services, setServices] = useSelectedServices();
-
-	const { environment } = useEnvironment();
-	const services = servicesMock.filter((service) => service.environment === environment);
+	const [services, setServices] = useSelectedServices();
 
 	return (
 		<>
