@@ -1,6 +1,5 @@
-import { Button, DataTableCell, DataTableHeadCell, DataTableRow, TextField } from "rmwc";
+import { Button, DataTableCell, DataTableRow, TextField } from "rmwc";
 import "./style.css"
-import { useRef } from "react";
 import { Parameter } from "../../features/parameters/types";
 import useCommitStore from "../../features/changes/useCommitStore";
 import { Service } from "../../features/services/types";
@@ -28,9 +27,8 @@ const ParameterListRow = (props: ParameterListRowProps) => {
 	};
 
 	const handleParameterChange = (newValue: ParameterValue) => {
-		addParameterChange(service, {parameter, newValue});
+		addParameterChange(service, { parameter, newValue });
 	};
-
 
 	return (
 		<DataTableRow className="tableRow">
@@ -42,8 +40,9 @@ const ParameterListRow = (props: ParameterListRowProps) => {
 					className="parameterInput"
 					value={value as string}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-						handleParameterChange(e.target.value)}} />
-				{/* <TextField className="parameterInput" outlined /> */}
+						handleParameterChange(e.target.value)
+					}}
+				/>
 			</DataTableCell>
 			<DataTableCell alignEnd>
 				<Button
