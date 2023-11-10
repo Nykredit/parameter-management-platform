@@ -2,6 +2,9 @@ import ServiceListElement from "./ServiceListElement";
 import { Service } from "../../features/services/types";
 import { Environment } from "../../features/environment/environment";
 import useEnvironment from "../../features/environment/useEnvironment";
+import { useEffect, useState } from "react";
+import { boolean } from "zod";
+import { Button } from "rmwc";
 
 
 const servicesMock: Service[] = [
@@ -27,21 +30,23 @@ const servicesMock: Service[] = [
 	}
 ];
 
+interface ColapseState {
+	service: Service;
+	isCollapsed: boolean;
+}
 
 
 const ServiceList = () => {
-	// const services = useSelectedServices((s) => s.services);
-	const services = servicesMock;
-	const { environment } = useEnvironment();
-
-	const servicesInEnviroment = services.filter((service) => service.environment === environment);
 	// const [services, setServices] = useSelectedServices();
+
+	const { environment } = useEnvironment();
+	const services = servicesMock.filter((service) => service.environment === environment);
 
 	return (
 		<>
 			<h2>Parameters</h2>
-			{servicesInEnviroment.map((service) => (
-				<ServiceListElement service={service} />
+			{services.map((service) => (
+				<ServiceListElement service={service}/>
 			))
 			}
 		</>

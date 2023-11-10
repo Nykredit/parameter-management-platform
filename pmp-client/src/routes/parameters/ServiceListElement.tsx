@@ -1,6 +1,6 @@
 import { CollapsibleList, SimpleListItem } from "rmwc";
 import ParameterList from "./ParameterList";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Parameter, ParameterType } from "../../features/parameters/types";
 import { Service } from "../../features/services/types";
 
@@ -66,9 +66,11 @@ const ServiceListElement = (props: ServiceListElementProps) => {
 
 	const hasParms = parameters.length > 0;
 
+	const ref = useRef<HTMLElement>(null);
 
 	return (
 		<CollapsibleList
+			defaultOpen
 			handle={
 				<SimpleListItem
 					className="serviceListItem"
