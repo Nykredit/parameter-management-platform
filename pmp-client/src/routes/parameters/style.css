@@ -35,6 +35,10 @@
 	font-weight: bold;
 }
 
+.invalid {
+	background-color: rgba(255, 0, 0, 0.068);
+}
+
 /* .paramPage {
 	background-color: rgb(202, 255, 237);
 } */

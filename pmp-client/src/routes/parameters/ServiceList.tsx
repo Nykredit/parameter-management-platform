@@ -35,6 +35,7 @@ const ServiceList = () => {
 	const { environment } = useEnvironment();
 
 	const servicesInEnviroment = services.filter((service) => service.environment === environment);
+	// const [services, setServices] = useSelectedServices();
 
 	return (
 		<>

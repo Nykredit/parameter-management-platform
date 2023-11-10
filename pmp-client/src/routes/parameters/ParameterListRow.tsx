@@ -4,8 +4,8 @@ import { Parameter } from "../../features/parameters/types";
 import useCommitStore from "../../features/changes/useCommitStore";
 import { Service } from "../../features/services/types";
 import { ParameterValue } from "../../features/changes/types";
-
-
+import validateParamChange from "../../features/changes/validateParamChange";
+import Input from "./Input";
 
 interface ParameterListRowProps {
 	parameter: Parameter;
@@ -21,6 +21,8 @@ const ParameterListRow = (props: ParameterListRowProps) => {
 	const hasChange = parameterChange !== undefined;
 	const value = hasChange ? parameterChange.newValue : parameter.value;
 
+	const isValid = validateParamChange({parameter, newValue: value});
+
 	const handleParamerterChangeReset = () => {
 		removeParameterChange(service, parameterChange!);
 		console.log(parameterChange)
@@ -35,14 +37,17 @@ const ParameterListRow = (props: ParameterListRowProps) => {
 			<DataTableCell>{parameter.name}</DataTableCell>
 			<DataTableCell>{parameter.type}</DataTableCell>
 			<DataTableCell>
-				<TextField
+				{/* <TextField
+					invalid={!isValid}
+					// prefix={isValid ? "" : "type not " + parameter.type}
 					outlined
-					className="parameterInput"
+					className={"parameterInput" + (isValid ? "" : " invalid")}
 					value={value as string}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 						handleParameterChange(e.target.value)
 					}}
-				/>
+				/> */}
+				<Input isValid={isValid} value={value} type={parameter.type} onParamChange={handleParameterChange} />
 			</DataTableCell>
 			<DataTableCell alignEnd>
 				<Button

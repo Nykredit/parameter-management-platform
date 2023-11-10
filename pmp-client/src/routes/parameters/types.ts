@@ -17,3 +17,17 @@ export enum SortingOption {
 	Name = 'name',
 	Value = 'value',
 }
+
+export const InputTextFieldTypes = [
+	"string",
+	"character",
+	"integer",
+	"long",
+	"short",
+	"byte",
+	"float",
+	"double",
+	"bigdecimal"
+]
+
+

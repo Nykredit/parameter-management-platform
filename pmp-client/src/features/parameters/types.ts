@@ -10,3 +10,18 @@ export interface Parameter<T extends ParameterValue = ParameterValue> {
 export interface ParameterResponse {
     parameters: Parameter[];
 }
+
+export enum ParameterType {
+	STRING = 'string',
+	CHARACTER = 'character',
+	INTEGER = 'integer',
+	LONG = 'long',
+	SHORT = 'short',
+	BYTE = 'byte',
+	FLOAT = 'float',
+	DOUBLE = 'double',
+	BIGDECIMAL = 'bigdecimal',
+	BOOLEAN = 'boolean',
+	LOCALDATE = 'localdate',
+	LOCALDATETIME = 'localdatetime',
+}
