@@ -1,8 +1,8 @@
 import AppBar from './AppBar';
-import ChangeList from '../features/changes/sidebar/ChangeList';
 import InvalidEnvironmentScreen from './InvalidEnvironmentScreen';
 import ListofServices from '../features/services/ListOfServices';
 import { Outlet } from 'react-router-dom';
+import PendingChanges from '../features/changes/sidebar/PendingChanges';
 import SideDrawer from '../features/components/SideDrawer';
 import useEnvironment from '../features/environment/useEnvironment';
 
@@ -38,7 +38,7 @@ const Layout = () => {
                             {/** Right */}
                             <div className='flex-none h-full overflow-auto max-w-xs'>
                                 <SideDrawer rtl>
-                                    <ChangeList />
+                                    <PendingChanges />
                                 </SideDrawer>
                             </div>
                         </>
