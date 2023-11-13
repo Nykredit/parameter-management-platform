@@ -3,6 +3,7 @@ import { ParameterChange, Revert, ServiceChanges } from './types';
 import { Service } from '../services/types';
 import { createStore } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Parameter } from '../parameters/types';
 
 /**
  * Internal state of the commit store
@@ -21,6 +22,7 @@ interface Actions {
     addRevert: (service: Service, revert: Revert) => void;
     removeParameterChange: (service: Service, change: ParameterChange) => void;
     removeRevert: (service: Service, revert: Revert) => void;
+	findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
     undo: () => void;
     redo: () => void;
     clear: () => void;
@@ -53,8 +55,15 @@ export const createCommitStore = (storageKey: string) => {
         persist(
             (set, get) => ({
                 ...initialState,
+				findParameterChange: (service, parameter) => {
+					const serviceParameterChanges = get().serviceChanges.find((sc) => sc.service.address === service.address)?.parameterChanges;
+					return serviceParameterChanges?.find((pc) => pc.parameter.id === parameter.id);
+				},
                 addParameterChange: (service, change) => {
                     // Assume service is unique on address
+					console.log(change);
+					
+
                     const oldServiceChange = get().serviceChanges.find((c) => c.service.address === service.address);
                     let filteredParameterChanges = oldServiceChange?.parameterChanges.filter(
                         (p) => p.parameter.id !== change.parameter.id
@@ -66,29 +75,34 @@ export const createCommitStore = (storageKey: string) => {
                         parameterChanges: [...filteredParameterChanges, change],
                         reverts: oldServiceChange?.reverts ?? []
                     };
+					
                     set((s) => ({
                         serviceChanges: [...s.serviceChanges.filter((c) => c !== oldServiceChange), newServiceChange],
                         __past: [...s.__past, s.serviceChanges],
                         __future: []
                     }));
+
+					if (change.newValue == change.parameter.value) {
+						get().removeParameterChange(service, change);
+					}
                 },
                 // TODO: Implement
                 addRevert: (_service, _revert) => {},
                 removeParameterChange: (service, change) => {
                     // If someone has a prettier way of doing this, please tell me
                     const s = get();
-                    const serviceChange = s.serviceChanges.find((c) => c.service.address !== service.address);
+                    const serviceChange = s.serviceChanges.find((c) => c.service.address === service.address);
                     if (!serviceChange) return;
 
                     const newParameterChanges = serviceChange?.parameterChanges.filter((c) => c !== change);
-                    if (newParameterChanges.length === s.serviceChanges.length) return;
+                    if (newParameterChanges.length === serviceChange?.parameterChanges.length) return;
 
                     const newServiceChange = {
                         ...serviceChange,
                         parameterChanges: newParameterChanges
                     };
 
-                    const newServiceChanges = [...s.serviceChanges.filter((c) => c !== serviceChange)];
+                    const newServiceChanges = s.serviceChanges.filter((c) => c !== serviceChange);
                     if (newServiceChange.parameterChanges.length > 0) {
                         newServiceChanges.push(newServiceChange);
                     }

@@ -2,6 +2,8 @@ import { Button } from 'rmwc';
 import { Environment } from '../../features/environment/environment';
 import QueryExample from './QueryExample';
 import useCommitStore from '../../features/changes/useCommitStore';
+import ServiceList from './ServiceList';
+import "./style.css"
 
 /**
  * Page for displaying and editing parameters.
@@ -30,12 +32,9 @@ const ParametersPage = () => {
     };
 
     return (
-        <div>
+        <div className='paramPage'>
             <h1>Parameters</h1>
-            <Button raised onClick={handleClick}>
-                Add parameter change
-            </Button>
-            <QueryExample />
+			<ServiceList />
         </div>
     );
 };
