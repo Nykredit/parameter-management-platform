@@ -18,7 +18,7 @@ const SideDrawer = ({ children, rtl = false }: SideDrawerProps) => {
 
     return (
         <div
-            className={`flex flex-col h-full max-w-[300px] ${rtl ? 'border-l-[1px]' : 'border-r-[1px]'} ${
+            className={`flex flex-col h-full ${rtl ? 'border-l-[1px]' : 'border-r-[1px]'} ${
                 open ? 'w-fit' : 'w-[49px]'
             }`}
         >

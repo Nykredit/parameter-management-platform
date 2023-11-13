@@ -1,7 +1,8 @@
-import { Grid, GridCell, GridRow, IconButton, List, ListItemPrimaryText, ListItemSecondaryText, TextField} from "rmwc";
+import { Grid, GridCell, GridRow, IconButton, List, ListItemPrimaryText, ListItemSecondaryText, TextField } from "rmwc";
+
 import { ParameterChange } from "../types";
-import useCommitStore from "../useCommitStore";
 import { Service } from "../../services/types";
+import useCommitStore from "../useCommitStore";
 
 const ParamChangeEntry = ({ change, service }: { change: ParameterChange, service: Service }) => {
 
@@ -30,7 +31,7 @@ const ParamChangeEntry = ({ change, service }: { change: ParameterChange, servic
                                 </GridCell>
                             </GridRow>
                             <GridRow>
-                                <GridCell span={12} style={{padding: '0px', paddingTop: '10px', border: 'solid 1px'}}>
+                                <GridCell span={12} style={{padding: '0px', paddingTop: '10px'}}>
                                     <TextField style={{width: '100%'}} outlined label="New Value" value={change.newValue.toString()} type={change.parameter.type}/>
                                 </GridCell>
                             </GridRow>
