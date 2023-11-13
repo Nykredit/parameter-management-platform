@@ -36,7 +36,7 @@ const Layout = () => {
                                 <Outlet />
                             </div>
                             {/** Right */}
-                            <div className='flex-none h-full overflow-auto max-w-md'>
+                            <div className='flex-none h-full overflow-auto max-w-lg'>
                                 <SideDrawer rtl>
                                     <PendingChanges />
                                 </SideDrawer>
