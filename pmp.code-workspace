@@ -15,13 +15,18 @@
     {
       "name": "PMP Component Tests",
       "path": "pmp-component-tests"
+    },
+    {
+      "name": "PMP Tracker",
+      "path": "pmp-tracker"
     }
   ],
   "settings": {
     "files.exclude": {
       "pmp-client": true,
       "pmp-core": true,
-      "pmp-component-tests": true
+      "pmp-component-tests": true,
+      "pmp-tracker": true
     }
   },
   "extensions": {
