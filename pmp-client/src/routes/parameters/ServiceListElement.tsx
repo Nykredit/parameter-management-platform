@@ -9,22 +9,17 @@ interface ServiceListElementProps {
 }
 
 const ServiceListElement = ({ service }: ServiceListElementProps) => {
-    const { data: parameters, isPending, error } = useParameterQuery(service);
+    const { data: parameters, error } = useParameterQuery(service);
 
-    if (isPending) return <></>;
-
-    if (error) return <Typography use='headline6'>Error loading parameters</Typography>;
-
-    const hasParms = parameters.length > 0;
-
-	return (
-		<CollapsibleList
-			defaultOpen
-			handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
-		>
-			{hasParms && <ParameterList service={service} parameters={parameters} />}
-		</CollapsibleList>
-	);
+    return (
+        <CollapsibleList
+            defaultOpen
+            handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
+        >
+            {parameters && <ParameterList service={service} parameters={parameters} />}
+            {error && <Typography use='headline6'>Error loading parameters</Typography>}
+        </CollapsibleList>
+    );
 };
 
 export default ServiceListElement;
