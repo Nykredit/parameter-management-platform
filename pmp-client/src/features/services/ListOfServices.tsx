@@ -32,11 +32,11 @@ const ListofServices = () => {
 
     return (
         <DataTable>
-            <DataTableContent>
+            <DataTableContent className='tableHead'>
                 <DataTableHead>
                     <DataTableRow>
-                        <DataTableHeadCell>Services</DataTableHeadCell>
-                        <DataTableHeadCell hasFormControl alignEnd>
+                        <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Services</DataTableHeadCell>
+                        <DataTableHeadCell style={{ backgroundColor: 'transparent' }} hasFormControl alignEnd>
                             <Checkbox
                                 checked={selectedServices.length === services.length}
                                 onChange={(evt: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +52,7 @@ const ListofServices = () => {
                 </DataTableHead>
                 <DataTableBody>
                     {sortedServices.map((s) => (
-                        <DataTableRow key={s.name}>
+                        <DataTableRow className='tableRow' key={s.name}>
                             <DataTableCell>{s.name}</DataTableCell>
                             <DataTableCell hasFormControl>
                                 <Checkbox
