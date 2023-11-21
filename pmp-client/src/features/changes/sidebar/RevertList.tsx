@@ -56,8 +56,16 @@ const RevertDetails = ({ revert }: RevertDetailsProps) => {
 };
 
 const RevertList = () => {
+    const removeChange = useCommitStore((s) => s.removeChange);
     const changes = useCommitStore((s) => s.changes);
     const reverts = changes.filter(isRevert); // Filter outside callback to possibly aviod rerenders
+
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        reverts.forEach((revert) => {
+            removeChange(revert);
+        });
+    };
 
     return (
         <Grid style={{ padding: '0px' }}>
@@ -72,7 +80,7 @@ const RevertList = () => {
                             metaIcon='chevron_right'
                             style={{ padding: '5px' }}
                         >
-                            <IconButton icon='delete' />
+                            <IconButton icon='delete' onClick={handleClick} />
                         </SimpleListItem>
                     }
                 >
