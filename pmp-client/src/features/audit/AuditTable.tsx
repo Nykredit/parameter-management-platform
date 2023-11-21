@@ -13,12 +13,6 @@ const AuditList = () => {
         return <div>Error</div>;
     }
 
-    entries.forEach((e) => {
-        e.changes.forEach((c) => {
-            if (!c.service) console.log("Shit's missing.", e, c);
-        });
-    });
-
     return (
         <DataTable stickyRows={1} className='w-full'>
             <DataTableContent>
@@ -28,10 +22,11 @@ const AuditList = () => {
                         <DataTableHeadCell>User</DataTableHeadCell>
                         <DataTableHeadCell>Hash</DataTableHeadCell>
                         <DataTableHeadCell>Message</DataTableHeadCell>
+                        <DataTableHeadCell>Options</DataTableHeadCell>
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
-                    {entries.map((e) => (
+                    {entries!.map((e) => (
                         <AuditTableRow key={e.hash} entry={e} />
                     ))}
                 </DataTableBody>

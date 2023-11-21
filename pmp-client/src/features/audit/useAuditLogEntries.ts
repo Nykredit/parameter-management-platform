@@ -1,10 +1,10 @@
 import { Service } from '../services/types';
 import axios from 'axios';
+import useEnvironment from '../environment/useEnvironment';
+import { useMsal } from '@azure/msal-react';
 import { useQueries } from '@tanstack/react-query';
 import useSelectedServices from '../services/useSelectedServices';
 import { z } from 'zod';
-import useEnvironment from '../environment/useEnvironment';
-import { useMsal } from '@azure/msal-react';
 
 const paramerterChangeParser = z.object({
     name: z.string(),
@@ -25,6 +25,7 @@ const logParser = z.object({
             pushDate: z.coerce.date(),
             email: z.string(),
             message: z.string(),
+            affectedServices: z.array(z.string()),
             changes: z.object({
                 reverts: revertParser.array(),
                 parameterChanges: paramerterChangeParser.array()
@@ -47,6 +48,7 @@ export interface AuditLogEntry {
     pushDate: Date;
     email: string;
     message: string;
+    affectedServices: string[];
     changes: AuditLogEntryChange[];
 }
 
@@ -91,7 +93,7 @@ const useAuditLogEntries = (queryString: string) => {
             const isError = errors.length;
             if (isPending || isError)
                 return {
-                    data: [],
+                    data: undefined,
                     isPending,
                     isError,
                     errors: errors
@@ -108,6 +110,7 @@ const useAuditLogEntries = (queryString: string) => {
                         pushDate: commit.pushDate,
                         email: commit.email,
                         message: commit.message,
+                        affectedServices: commit.affectedServices,
                         changes: []
                     };
 

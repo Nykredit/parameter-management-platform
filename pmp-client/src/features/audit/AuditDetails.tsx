@@ -18,6 +18,10 @@ import {
     Typography
 } from 'rmwc';
 
+import { Fragment } from 'react';
+import useSelectedServices from '../services/useSelectedServices';
+import useServices from '../services/useServices';
+
 interface AuditDetailsServiceCollapsProps extends AuditLogEntryChange {}
 
 const AuditDetailsServiceCollaps = ({ service, parameterChanges, reverts }: AuditDetailsServiceCollapsProps) => {
@@ -100,6 +104,15 @@ interface AuditDetailsProps {
 }
 
 const AuditDetails = ({ entry }: AuditDetailsProps) => {
+    const { data: allServices } = useServices();
+    const [selectedServices] = useSelectedServices();
+
+    const affectedServices = entry.affectedServices.map((s) => ({
+        serviceName: s,
+        selected: selectedServices.some((ss) => ss.name === s),
+        connected: allServices?.some((ss) => ss.name === s)
+    }));
+
     return (
         <div className='flex'>
             <div className='flex-none'>
@@ -117,6 +130,19 @@ const AuditDetails = ({ entry }: AuditDetailsProps) => {
                     <Typography use='subtitle1'>Hash:</Typography>
                     <br />
                     <Typography use='subtitle2'>{entry.hash}</Typography>
+                </div>
+                <div>
+                    <Typography use='subtitle1'>Affected services:</Typography>
+                    <br />
+                    {affectedServices.map((s) => (
+                        <Fragment key={s.serviceName}>
+                            <Typography key={s.serviceName} use='subtitle2'>
+                                {s.serviceName} -{' '}
+                                {!s.connected ? 'not connected' : s.selected ? 'selected' : 'not selected'}
+                            </Typography>
+                            <br />
+                        </Fragment>
+                    ))}
                 </div>
             </div>
             <div className='flex-1 pl-4'>

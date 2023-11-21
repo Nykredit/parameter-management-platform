@@ -55,4 +55,3 @@ export const InputTextFieldTypes = [
     'double',
     'bigdecimal'
 ];
-
