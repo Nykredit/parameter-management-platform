@@ -1,3 +1,4 @@
+import { AAD_CLIENT_ID, AAD_REDIRECT_URI_BASE } from '../../config';
 import { Configuration, RedirectRequest } from '@azure/msal-browser';
 
 /**
@@ -6,9 +7,9 @@ import { Configuration, RedirectRequest } from '@azure/msal-browser';
  */
 export const authConfig: Configuration = {
     auth: {
-        clientId: 'f74350bc-51a5-4955-8fac-859d8cca13df',
-        redirectUri: 'http://localhost:5173/',
-        postLogoutRedirectUri: 'http://localhost:5173/signout',
+        clientId: AAD_CLIENT_ID,
+        redirectUri: AAD_REDIRECT_URI_BASE,
+        postLogoutRedirectUri: `${AAD_REDIRECT_URI_BASE}/signout`,
         navigateToLoginRequestUrl: true
     },
     cache: {
