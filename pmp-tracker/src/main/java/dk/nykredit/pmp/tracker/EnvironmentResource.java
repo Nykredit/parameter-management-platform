@@ -22,13 +22,10 @@ public class EnvironmentResource {
     @Produces({ MediaType.APPLICATION_JSON })
     public Response environments() {
 
-        if (headers == null || headers.getRequestHeader("pmp-authorization") == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-
-        String token = headers.getRequestHeader("pmp-authorization").get(0);
-
-        if (token == null || token.isBlank()) {
+        if (headers == null || 
+            headers.getRequestHeader("pmp-authorization") == null ||
+            headers.getRequestHeader("pmp-authorization").get(0) == null ||
+            headers.getRequestHeader("pmp-authorization").get(0).isBlank()) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
