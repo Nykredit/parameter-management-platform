@@ -12,20 +12,28 @@ import {
     Typography
 } from 'rmwc';
 
+import RevertList from './RevertList';
 import ServiceChangeList from './ServiceChangeList';
+import { groupBy } from '../../../utils/array';
+import { isParameterChange } from '../commitStoreHelpers';
 import useCommitStore from '../useCommitStore';
+import PushDialog from './PushDialog';
+import { useState } from 'react';
 import useEnvironment from '../../environment/useEnvironment';
 
 /**
  * Displays a list of changes made in the current commit.
  */
 const ChangeList = () => {
-    const serviceChanges = useCommitStore((s) => s.serviceChanges);
+    const changes = useCommitStore((s) => s.changes);
     const clearChanges = useCommitStore((s) => s.clear);
+    const parameterChanges = changes.filter(isParameterChange);
+    const hasChanges = changes.length > 0;
+    const serviceChanges = groupBy(parameterChanges, (c) => c.service.name);
+    const sortedNames = Object.keys(serviceChanges).sort();
+    const [open, setOpen] = useState(false);
     const { environment } = useEnvironment();
-
-    const sortedChanges = serviceChanges.sort((a, b) => a.service.name.localeCompare(b.service.name));
-    const hasChanges = sortedChanges.length > 0;
+    const showEnvironmentWarning = environment.startsWith('pre') || environment.startsWith('prod');
 
     // TODO: Implement push functionality
 
@@ -34,7 +42,18 @@ const ChangeList = () => {
             <div className='flex-none'>
                 <Grid style={{ padding: '0px', paddingRight: '0px', paddingLeft: '5px', paddingBottom: '5px' }}>
                     <GridCell span={7}>
-                        <Button raised={hasChanges} outlined={!hasChanges} disabled={!hasChanges}>
+                        <PushDialog
+                            environment={environment}
+                            showWarning={showEnvironmentWarning}
+                            open={open}
+                            onClose={() => setOpen(false)}
+                        />
+                        <Button
+                            onClick={() => setOpen(true)}
+                            raised={hasChanges}
+                            outlined={!hasChanges}
+                            disabled={!hasChanges}
+                        >
                             Push to {environment}
                         </Button>
                     </GridCell>
@@ -49,9 +68,12 @@ const ChangeList = () => {
                 {!hasChanges ? (
                     <EmptyEntry />
                 ) : (
-                    sortedChanges.map((serviceChange) => (
-                        <ServiceChangeList key={serviceChange.service.address} serviceChanges={serviceChange} />
-                    ))
+                    <>
+                        <RevertList />
+                        {sortedNames.map((name) => (
+                            <ServiceChangeList key={name} serviceName={name} changes={serviceChanges[name]} />
+                        ))}
+                    </>
                 )}
             </div>
         </div>

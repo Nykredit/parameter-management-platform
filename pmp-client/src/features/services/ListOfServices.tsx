@@ -1,5 +1,6 @@
 import {
     Checkbox,
+    CircularProgress,
     DataTable,
     DataTableBody,
     DataTableCell,
@@ -15,26 +16,32 @@ import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
 
 const ListofServices = () => {
-    const { data: list, isPending, error } = useServices();
+    const { data: services, isPending, error } = useServices();
     const [selectedServices, setSelectedServices] = useSelectedServices();
 
-    // TODO: Add pending UI
-    if (isPending) return <></>;
+    if (isPending)
+        return (
+            <>
+                <Typography use='headline6'>Waiting on services</Typography> <CircularProgress />
+            </>
+        );
 
     if (error) return <Typography use='headline6'>Error loading services</Typography>;
 
+    const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
+
     return (
         <DataTable>
-            <DataTableContent>
+            <DataTableContent className='tableHead'>
                 <DataTableHead>
                     <DataTableRow>
-                        <DataTableHeadCell>Services</DataTableHeadCell>
-                        <DataTableHeadCell hasFormControl alignEnd>
+                        <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Services</DataTableHeadCell>
+                        <DataTableHeadCell style={{ backgroundColor: 'transparent' }} hasFormControl alignEnd>
                             <Checkbox
-                                checked={selectedServices.length === list.length}
+                                checked={selectedServices.length === services.length}
                                 onChange={(evt: ChangeEvent<HTMLInputElement>) => {
                                     if (evt.currentTarget.checked) {
-                                        setSelectedServices(list);
+                                        setSelectedServices(services);
                                     } else {
                                         setSelectedServices([]);
                                     }
@@ -44,8 +51,8 @@ const ListofServices = () => {
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
-                    {list.map((s) => (
-                        <DataTableRow key={s.name}>
+                    {sortedServices.map((s) => (
+                        <DataTableRow className='tableRow' key={s.name}>
                             <DataTableCell>{s.name}</DataTableCell>
                             <DataTableCell hasFormControl>
                                 <Checkbox

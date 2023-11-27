@@ -1,36 +1,39 @@
 import { Button, DataTableCell, DataTableRow } from 'rmwc';
 
+import Input from '../../features/parameters/Input';
 import { Parameter } from '../../features/parameters/types';
 import { ParameterValue } from '../../features/changes/types';
 import { Service } from '../../features/services/types';
 import useCommitStore from '../../features/changes/useCommitStore';
+import { useParameterFilter } from '../../features/search_filter/useParamererFilter';
 import validateParamChange from '../../features/changes/validateParamChange';
-import Input from '../../features/parameters/Input';
+import validateParameterFilterMatch from '../../features/search_filter/validateParameterFilterMatch';
 
 interface ParameterListRowProps {
     parameter: Parameter;
     service: Service;
 }
 
-const ParameterListRow = (props: ParameterListRowProps) => {
-    const { parameter, service } = props;
-    const addParameterChange = useCommitStore((s) => s.addParameterChange);
-    const removeParameterChange = useCommitStore((s) => s.removeParameterChange);
+const ParameterListRow = ({ parameter, service }: ParameterListRowProps) => {
+    const addChange = useCommitStore((s) => s.addChange);
+    const removeChange = useCommitStore((s) => s.removeChange);
+    const [filter] = useParameterFilter();
 
     const parameterChange = useCommitStore((s) => s.findParameterChange(service, parameter));
     const hasChange = parameterChange !== undefined;
     const value = hasChange ? parameterChange.newValue : parameter.value;
 
-    const isValid = validateParamChange({ parameter, newValue: value });
+    const isValid = !hasChange || validateParamChange(parameterChange);
 
     const handleParamerterChangeReset = () => {
-        removeParameterChange(service, parameterChange!);
-        console.log(parameterChange);
+        removeChange(parameterChange!);
     };
 
     const handleParameterChange = (newValue: ParameterValue) => {
-        addParameterChange(service, { parameter, newValue });
+        addChange({ parameter, service, newValue });
     };
+
+    if (!validateParameterFilterMatch(filter, parameter)) return null;
 
     return (
         <DataTableRow className='tableRow'>

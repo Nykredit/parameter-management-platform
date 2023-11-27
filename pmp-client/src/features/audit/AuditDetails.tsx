@@ -1,0 +1,159 @@
+import {
+    AuditLogEntry,
+    AuditLogEntryChange,
+    AuditLogEntryParameterChange,
+    AuditLogEntryRevert
+} from './useAuditLogEntries';
+import {
+    CollapsibleList,
+    DataTable,
+    DataTableBody,
+    DataTableCell,
+    DataTableContent,
+    DataTableHead,
+    DataTableHeadCell,
+    DataTableRow,
+    List,
+    SimpleListItem,
+    Typography
+} from 'rmwc';
+
+import { Fragment } from 'react';
+import useSelectedServices from '../services/useSelectedServices';
+import useServices from '../services/useServices';
+
+interface AuditDetailsServiceCollapsProps extends AuditLogEntryChange {}
+
+const AuditDetailsServiceCollaps = ({ service, parameterChanges, reverts }: AuditDetailsServiceCollapsProps) => {
+    const revertChanges = reverts.reduce((acc: AuditDetailsRevertRowProps[], revert) => {
+        const c = revert.parameterChanges.map((p) => ({
+            ...p,
+            revertType: revert.revertType,
+            referenceHash: revert.referenceHash
+        }));
+        return acc.concat(c);
+    }, []);
+
+    return (
+        <CollapsibleList
+            defaultOpen
+            handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
+        >
+            <DataTable className='w-full'>
+                <DataTableContent className='tableHead'>
+                    <DataTableHead>
+                        <DataTableRow>
+                            <DataTableHeadCell className='headCell'>Name</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>New Value</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>Old Value</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>Details</DataTableHeadCell>
+                        </DataTableRow>
+                    </DataTableHead>
+                    <DataTableBody>
+                        {revertChanges.map((rc) => (
+                            <AuditDetailsRevertRow key={rc.name} {...rc} />
+                        ))}
+                        {parameterChanges.map((p) => (
+                            <AuditDetailsParameterChangeRow key={p.name} {...p} />
+                        ))}
+                    </DataTableBody>
+                </DataTableContent>
+            </DataTable>
+        </CollapsibleList>
+    );
+};
+
+interface AuditDetailsParameterChangeRowProps extends AuditLogEntryParameterChange {}
+
+const AuditDetailsParameterChangeRow = ({ name, newValue, oldValue }: AuditDetailsParameterChangeRowProps) => {
+    return (
+        <DataTableRow className='tableRow'>
+            <DataTableCell>{name}</DataTableCell>
+            <DataTableCell>{newValue}</DataTableCell>
+            <DataTableCell>{oldValue}</DataTableCell>
+            <DataTableCell></DataTableCell>
+        </DataTableRow>
+    );
+};
+
+interface AuditDetailsRevertRowProps {
+    referenceHash: AuditLogEntryRevert['referenceHash'];
+    revertType: AuditLogEntryRevert['revertType'];
+    name: AuditLogEntryParameterChange['name'];
+    newValue: AuditLogEntryParameterChange['newValue'];
+    oldValue: AuditLogEntryParameterChange['oldValue'];
+}
+
+const AuditDetailsRevertRow = ({ name, newValue, oldValue, referenceHash, revertType }: AuditDetailsRevertRowProps) => {
+    return (
+        <DataTableRow className='tableRow'>
+            <DataTableCell>{name}</DataTableCell>
+            <DataTableCell>{newValue}</DataTableCell>
+            <DataTableCell>{oldValue}</DataTableCell>
+            <DataTableCell>
+                <Typography use='body2'>Revert of type: {revertType}</Typography>
+                <br />
+                <Typography use='body2'>Reference: {referenceHash}</Typography>
+            </DataTableCell>
+        </DataTableRow>
+    );
+};
+
+interface AuditDetailsProps {
+    entry: AuditLogEntry;
+}
+
+const AuditDetails = ({ entry }: AuditDetailsProps) => {
+    const { data: allServices } = useServices();
+    const [selectedServices] = useSelectedServices();
+
+    const affectedServices = entry.affectedServices.map((s) => ({
+        serviceName: s,
+        selected: selectedServices.some((ss) => ss.name === s),
+        connected: allServices?.some((ss) => ss.name === s)
+    }));
+
+    return (
+        <div className='flex'>
+            <div className='flex-none'>
+                <div className='pb-1'>
+                    <Typography use='subtitle1'>Date:</Typography>
+                    <br />
+                    <Typography use='subtitle2'>{entry.pushDate.toLocaleString()}</Typography>
+                </div>
+                <div className='pb-1'>
+                    <Typography use='subtitle1'>User:</Typography>
+                    <br />
+                    <Typography use='subtitle2'>{entry.email}</Typography>
+                </div>
+                <div>
+                    <Typography use='subtitle1'>Hash:</Typography>
+                    <br />
+                    <Typography use='subtitle2'>{entry.hash}</Typography>
+                </div>
+                <div>
+                    <Typography use='subtitle1'>Affected services:</Typography>
+                    <br />
+                    {affectedServices.map((s) => (
+                        <Fragment key={s.serviceName}>
+                            <Typography key={s.serviceName} use='subtitle2'>
+                                {s.serviceName} -{' '}
+                                {!s.connected ? 'not connected' : s.selected ? 'selected' : 'not selected'}
+                            </Typography>
+                            <br />
+                        </Fragment>
+                    ))}
+                </div>
+            </div>
+            <div className='flex-1 pl-4'>
+                <List>
+                    {entry.changes.map((c) => (
+                        <AuditDetailsServiceCollaps key={c.service.address} {...c} />
+                    ))}
+                </List>
+            </div>
+        </div>
+    );
+};
+
+export default AuditDetails;

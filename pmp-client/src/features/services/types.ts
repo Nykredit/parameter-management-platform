@@ -1,4 +1,4 @@
-import { Environment } from '../environment/environment';
+import { Environment } from '../environment/types';
 
 /** Information regarding services */
 export interface Service {
@@ -8,4 +8,4 @@ export interface Service {
 }
 
 /** Value kept in the selectedServiceContext */
-export type SelectedServiceContextValue = [Service[], React.Dispatch<React.SetStateAction<Service[]>>];
+export type SelectedServiceContextValue = [Service[], (services: Service[]) => void];
