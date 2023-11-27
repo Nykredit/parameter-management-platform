@@ -59,7 +59,6 @@ public class ServiceResource {
 
 	@Context HttpHeaders postHeaders;
 	@POST
-	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response services(Service service) {
 
@@ -68,7 +67,7 @@ public class ServiceResource {
 			postHeaders.getRequestHeader("pmp-environment") == null ||
 			postHeaders.getRequestHeader("pmp-environment").get(0) == null ||
 			postHeaders.getRequestHeader("pmp-environment").get(0).isBlank() ||
-			!isValid(service)) {
+			!serviceIsValid(service)) {
 
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
@@ -82,7 +81,7 @@ public class ServiceResource {
 		// If service already exitsts, refresh its stale-timer.
 		if (existingService != null){
 			existingService.refresh();
-			return Response.ok(existingService).build();
+			return Response.ok().build();
 		}
 
 		// If service didn't exist, register it.
@@ -97,7 +96,7 @@ public class ServiceResource {
 	 * @param service the object to be validated.
 	 * @return true if all required fields were validated, otherwise false.
 	 */
-	private boolean isValid(Service service) {
+	private boolean serviceIsValid(Service service) {
 
 		if (service == null ||
 			service.getAddress() == null ||
