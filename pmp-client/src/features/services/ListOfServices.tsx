@@ -1,17 +1,5 @@
-import {
-    Checkbox,
-    CircularProgress,
-    DataTable,
-    DataTableBody,
-    DataTableCell,
-    DataTableContent,
-    DataTableHead,
-    DataTableHeadCell,
-    DataTableRow,
-    Typography
-} from 'rmwc';
+import { Card, CircularProgress, List, ListDivider, ListItem, Typography } from 'rmwc';
 
-import { ChangeEvent } from 'react';
 import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
 
@@ -31,48 +19,25 @@ const ListofServices = () => {
     const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
 
     return (
-        <DataTable>
-            <DataTableContent>
-                <DataTableHead>
-                    <DataTableRow>
-                        <DataTableHeadCell>Services</DataTableHeadCell>
-                        <DataTableHeadCell hasFormControl alignEnd>
-                            <Checkbox
-                                checked={selectedServices.length === services.length}
-                                onChange={(evt: ChangeEvent<HTMLInputElement>) => {
-                                    if (evt.currentTarget.checked) {
-                                        setSelectedServices(services);
-                                    } else {
-                                        setSelectedServices([]);
-                                    }
-                                }}
-                            />
-                        </DataTableHeadCell>
-                    </DataTableRow>
-                </DataTableHead>
-                <DataTableBody>
+        <>
+            <Card outlined>
+                <List>
+                    <ListItem disabled className='!opacity-100'>
+                        Services
+                    </ListItem>
+                    <ListDivider />
                     {sortedServices.map((s) => (
-                        <DataTableRow key={s.name}>
-                            <DataTableCell>{s.name}</DataTableCell>
-                            <DataTableCell hasFormControl>
-                                <Checkbox
-                                    checked={!!selectedServices.find((service) => s.address === service.address)}
-                                    onChange={(evt: ChangeEvent<HTMLInputElement>) => {
-                                        if (evt.currentTarget.checked) {
-                                            setSelectedServices([...selectedServices, s]);
-                                        } else {
-                                            setSelectedServices(
-                                                selectedServices.filter((service) => s.address !== service.address)
-                                            );
-                                        }
-                                    }}
-                                />
-                            </DataTableCell>
-                        </DataTableRow>
+                        <ListItem
+                            key={s.name}
+                            onClick={() => setSelectedServices([s])}
+                            selected={selectedServices.includes(s)}
+                        >
+                            {s.name}
+                        </ListItem>
                     ))}
-                </DataTableBody>
-            </DataTableContent>
-        </DataTable>
+                </List>
+            </Card>
+        </>
     );
 };
 
