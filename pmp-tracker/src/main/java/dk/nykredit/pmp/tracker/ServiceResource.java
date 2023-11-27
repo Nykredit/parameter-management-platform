@@ -29,9 +29,9 @@ public class ServiceResource {
 		// Check for required headers
 		// Check authorization header
 		if (getHeaders == null ||
-			getHeaders.getRequestHeader("pmp-authorization") == null ||
-			getHeaders.getRequestHeader("pmp-authorization").get(0) == null ||
-			getHeaders.getRequestHeader("pmp-authorization").get(0).isBlank()) {
+			getHeaders.getRequestHeader("Authorization") == null ||
+			getHeaders.getRequestHeader("Authorization").get(0) == null ||
+			getHeaders.getRequestHeader("Authorization").get(0).isBlank()) {
 
 			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}

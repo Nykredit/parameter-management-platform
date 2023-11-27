@@ -23,9 +23,9 @@ public class EnvironmentResource {
     public Response environments() {
 
         if (headers == null || 
-            headers.getRequestHeader("pmp-authorization") == null ||
-            headers.getRequestHeader("pmp-authorization").get(0) == null ||
-            headers.getRequestHeader("pmp-authorization").get(0).isBlank()) {
+            headers.getRequestHeader("Authorization") == null ||
+            headers.getRequestHeader("Authorization").get(0) == null ||
+            headers.getRequestHeader("Authorization").get(0).isBlank()) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
