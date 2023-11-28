@@ -15,6 +15,10 @@
     {
       "name": "Example Service",
       "path": "example-service"
+    },
+    {
+      "name": "PMP Tracker",
+      "path": "pmp-tracker"
     }
   ],
   "settings": {
@@ -22,6 +26,7 @@
       "pmp-client": true,
       "pmp-core": true,
       "pmp-component-tests": true,
+      "pmp-tracker": true,
       "example-service": true
     },
     "java.configuration.updateBuildConfiguration": "automatic"
