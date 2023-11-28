@@ -2,9 +2,13 @@ name: Azure Static Web Apps CI/CD
 
 on:
   push:
+    paths:
+      - pmp-client/**
     branches:
       - main
   pull_request:
+    paths:
+      - pmp-client/**
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
