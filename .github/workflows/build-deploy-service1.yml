@@ -18,6 +18,7 @@ on:
       - 'example-service/**'
       - 'Dockerfile'
       - 'pmp-core/**'
+      - '.github/workflows/build-deploy-service1.yml'
     branches:
       - main
 

@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - pmp-client/**
+      - '.github/workflows/*orange-tree*.yml'
     branches:
       - main
   pull_request:
     paths:
       - pmp-client/**
+      - '.github/workflows/*orange-tree*.yml'
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
