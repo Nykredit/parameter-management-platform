@@ -1,4 +1,15 @@
-import { Card, CircularProgress, List, ListDivider, ListItem, Typography } from 'rmwc';
+import {
+    Checkbox,
+    CircularProgress,
+    DataTable,
+    DataTableBody,
+    DataTableCell,
+    DataTableContent,
+    DataTableHead,
+    DataTableHeadCell,
+    DataTableRow,
+    Typography
+} from 'rmwc';
 
 import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
@@ -19,25 +30,51 @@ const ListofServices = () => {
     const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
 
     return (
-        <>
-            <Card outlined>
-                <List>
-                    <ListItem disabled className='!opacity-100'>
-                        Services
-                    </ListItem>
-                    <ListDivider />
+        <DataTable>
+            <DataTableContent>
+                <DataTableHead>
+                    <DataTableRow
+                        className='cursor-pointer'
+                        onClick={() => {
+                            if (selectedServices.length === services.length) {
+                                setSelectedServices([]);
+                            } else {
+                                setSelectedServices(services);
+                            }
+                        }}
+                    >
+                        <DataTableHeadCell>All services</DataTableHeadCell>
+                        <DataTableHeadCell hasFormControl alignEnd>
+                            <Checkbox checked={selectedServices.length === services.length} />
+                        </DataTableHeadCell>
+                    </DataTableRow>
+                </DataTableHead>
+                <DataTableBody>
                     {sortedServices.map((s) => (
-                        <ListItem
+                        <DataTableRow
+                            className='cursor-pointer'
                             key={s.name}
-                            onClick={() => setSelectedServices([s])}
-                            selected={selectedServices.includes(s)}
+                            onClick={() => {
+                                if (selectedServices.find((service) => s.address === service.address)) {
+                                    setSelectedServices(
+                                        selectedServices.filter((service) => s.address !== service.address)
+                                    );
+                                } else {
+                                    setSelectedServices([...selectedServices, s]);
+                                }
+                            }}
                         >
-                            {s.name}
-                        </ListItem>
+                            <DataTableCell>{s.name}</DataTableCell>
+                            <DataTableCell hasFormControl>
+                                <Checkbox
+                                    checked={!!selectedServices.find((service) => s.address === service.address)}
+                                />
+                            </DataTableCell>
+                        </DataTableRow>
                     ))}
-                </List>
-            </Card>
-        </>
+                </DataTableBody>
+            </DataTableContent>
+        </DataTable>
     );
 };
 
