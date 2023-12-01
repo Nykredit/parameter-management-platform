@@ -1,22 +1,30 @@
-import { Dialog, DialogActions, DialogButton, DialogTitle } from 'rmwc';
+import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from 'rmwc';
 import usePushCommit from './usePushCommit';
 import useCommitStore from '../useCommitStore';
+import { CommitBody } from '../types';
 
-interface PushAcceptedProps {
+interface PushStatusProps {
     open: boolean;
     onClose?: () => void;
+    commit: CommitBody;
 }
 
-const PushAccepted = ({ open, onClose }: PushAcceptedProps) => {
+const PushStatus = ({ open, onClose, commit }: PushStatusProps) => {
     // TODO: Missing implementation: usePushCommit currently only returns true.
     // It should check whether the push can get done or not.
     // Also actual backend implementation is missing to change params on services.
     // Finally, the parameters are currently just reverted back to their original values.
-    const accepted = usePushCommit();
+    const { requestState } = usePushCommit(commit);
     const clearChanges = useCommitStore((s) => s.clear);
 
-    if (accepted) {
-        console.log('In accepted component');
+    if (requestState === "loading") {
+        return (
+                <Dialog open={open}>
+                    <DialogTitle>Pushing commit</DialogTitle>
+                    <DialogContent><Load
+                </Dialog>
+        );
+    } else {
         return (
             <>
                 <Dialog open={open} onClose={onClose} onOpen={clearChanges}>
@@ -29,21 +37,7 @@ const PushAccepted = ({ open, onClose }: PushAcceptedProps) => {
                 </Dialog>
             </>
         );
-    } else {
-        console.log('In discarded component');
-        return (
-            <>
-                <Dialog open={open} onClose={onClose}>
-                    <DialogTitle>Applying changes was unsuccesful</DialogTitle>
-                    <DialogActions>
-                        <DialogButton danger outlined action='accept'>
-                            OK
-                        </DialogButton>
-                    </DialogActions>
-                </Dialog>
-            </>
-        );
     }
 };
 
-export default PushAccepted;
+export default PushStatus;
