@@ -1,9 +1,10 @@
-import { useState } from 'react';
 import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle, TextField, Typography } from 'rmwc';
-import PushStatus from './PushStatus';
+
 import { CommitBody } from '../types';
+import PushStatus from './PushStatus';
 import useCommitStore from '../useCommitStore';
 import { useMsal } from '@azure/msal-react';
+import { useState } from 'react';
 
 interface PushDialogProps {
     open: boolean;
@@ -22,10 +23,10 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
     const { accounts } = useMsal();
 
     const commit: CommitBody = {
-        changes, 
-        user: accounts[0].name || "Invalid User",
+        changes,
+        user: accounts[0].name || 'Invalid User',
         message: commitMessage,
-        pushDate: new Date(),
+        pushDate: new Date()
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +34,7 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
     };
 
     const handleCommitMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCommitMessage(e.target.value);
+        setCommitMessage(e.target.value);
     };
 
     return (
@@ -46,7 +47,7 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
                         <>
                             <div>
                                 <TextField
-                                    className="w-full"
+                                    className='w-full'
                                     label={'Enter  "' + environment + '" to confirm'}
                                     value={input}
                                     full-width
@@ -56,15 +57,14 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
                         </>
                     )}
                     <div>
-                      <TextField
-                          className="mt-5 w-full"
-                          full-width
-                          label={"Commit message"}
-                          value={commitMessage}
-                          onChange={handleCommitMessageChange}
-                      />
+                        <TextField
+                            className='mt-5 w-full'
+                            full-width
+                            label={'Commit message'}
+                            value={commitMessage}
+                            onChange={handleCommitMessageChange}
+                        />
                     </div>
-
                 </DialogContent>
                 <DialogActions>
                     <DialogButton raised action='close' isDefaultAction>
@@ -74,18 +74,16 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
                         danger
                         outlined
                         action='accept'
-                        disabled={showWarning && !isInputValid}
+                        disabled={(showWarning && !isInputValid) || commitMessage === ''}
                         onClick={() => setOpenNextDialog(true)}
                     >
                         Push
                     </DialogButton>
                 </DialogActions>
             </Dialog>
-            {openNextDialog && <PushStatus
-              open={openNextDialog}
-              onClose={() => setOpenNextDialog(false)}
-              commit={commit}
-            />}
+            {openNextDialog && (
+                <PushStatus open={openNextDialog} onClose={() => setOpenNextDialog(false)} commit={commit} />
+            )}
         </>
     );
 };

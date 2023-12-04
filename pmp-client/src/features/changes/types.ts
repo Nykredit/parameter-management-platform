@@ -53,8 +53,8 @@ export interface ServiceChanges {
 }
 
 export interface CommitBody {
-    pushDate: Date,
-    user: string,
-    message: string,
-    changes: Change[]
+    pushDate: Date;
+    user: string;
+    message: string;
+    changes: Change[];
 }
