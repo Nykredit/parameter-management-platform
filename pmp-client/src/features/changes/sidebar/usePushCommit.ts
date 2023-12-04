@@ -60,7 +60,6 @@ const usePushCommit = (commit: CommitBody) => {
                 setRequestState('partial');
             }
         };
-        // TODO: Is this evil?
         void fun();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
