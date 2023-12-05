@@ -23,7 +23,7 @@ const logParser = z.object({
         z.object({
             hash: z.string(),
             pushDate: z.coerce.date(),
-            email: z.string(),
+            user: z.string(),
             message: z.string(),
             affectedServices: z.array(z.string()),
             changes: z.object({
@@ -46,7 +46,7 @@ export interface AuditLogEntryChange {
 export interface AuditLogEntry {
     hash: string;
     pushDate: Date;
-    email: string;
+    user: string;
     message: string;
     affectedServices: string[];
     changes: AuditLogEntryChange[];
@@ -108,7 +108,7 @@ const useAuditLogEntries = (queryString: string) => {
                     const c: AuditLogEntry = map.get(commit.hash) ?? {
                         hash: commit.hash,
                         pushDate: commit.pushDate,
-                        email: commit.email,
+                        user: commit.user,
                         message: commit.message,
                         affectedServices: commit.affectedServices,
                         changes: []
