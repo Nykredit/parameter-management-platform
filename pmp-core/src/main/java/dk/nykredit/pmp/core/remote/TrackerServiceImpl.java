@@ -54,7 +54,11 @@ public class TrackerServiceImpl implements TrackerService {
                 startHeartbeat(pmpRoot, serviceName, environment);
             }
             return res.isSuccessful();
+        } catch (Exception e) {
+            // TODO: handle exception
         }
+
+        return false;
     }
 
     private void startHeartbeat(String pmpRoot, String serviceName, String environment) throws IOException {
@@ -65,9 +69,10 @@ public class TrackerServiceImpl implements TrackerService {
             public void run() {
                 try {
                     announce(pmpRoot, serviceName, environment);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+                
             }
         }, HEARTBEAT_INTERVAL, HEARTBEAT_INTERVAL);
     }
