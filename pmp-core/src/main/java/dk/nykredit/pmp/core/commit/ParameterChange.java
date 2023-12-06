@@ -1,8 +1,12 @@
 package dk.nykredit.pmp.core.commit;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dk.nykredit.pmp.core.audit_log.ChangeEntity;
+import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
-import dk.nykredit.pmp.core.commit.exception.StoredValueNullException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.service.ParameterService;
 import lombok.Getter;
@@ -10,11 +14,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ParameterChange implements Change {
-    private String name;
-    private String type;
-    private String oldValue;
-    private String newValue;
+public class ParameterChange implements PersistableChange {
+    protected String name;
+    protected String type;
+    protected String oldValue;
+    protected String newValue;
 
     public ParameterChange() {
     }
@@ -27,14 +31,15 @@ public class ParameterChange implements Change {
     }
 
     @Override
-    public void apply(CommitDirector commitDirector) throws CommitException {
+    public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
         ParameterService parameterService = commitDirector.getParameterService();
 
         Object storedValue = parameterService.findParameterByName(name);
         // TODO: How specific should the error message be in the responses to the
         // client?
         if (storedValue == null) {
-            throw new StoredValueNullException("Parameter with name " + name + " does not exist.");
+            // Do not do anything if the parameter does not exist on service
+            return new ArrayList<>();
         }
 
         if (!type.equalsIgnoreCase(parameterService.getParameterTypeName(name))) {
@@ -51,6 +56,15 @@ public class ParameterChange implements Change {
         }
 
         parameterService.updateParameter(name, newValueTyped);
+
+        List<PersistableChange> appliedChanges = new ArrayList<>();
+        appliedChanges.add(this);
+        return appliedChanges;
+    }
+
+    @Override
+    public ChangeEntity toChangeEntity(ChangeEntityFactory changeEntityFactory) {
+        return changeEntityFactory.createChangeEntity(this);
     }
 
     @Override

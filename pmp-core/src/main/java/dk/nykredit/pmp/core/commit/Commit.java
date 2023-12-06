@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,29 +21,32 @@ public class Commit {
 
     private List<Change> changes;
 
+    @JsonIgnore
+    private List<PersistableChange> appliedChanges;
+
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
-        List<Change> appliedChanges = new ArrayList<>(changes.size());
+        appliedChanges = new ArrayList<>(changes.size());
 
         for (Change change : changes) {
             try {
-                change.apply(commitDirector);
-                appliedChanges.add(change);
+                appliedChanges.addAll(change.apply(commitDirector));
             } catch (CommitException e) {
                 undoChanges(appliedChanges, commitDirector);
+                appliedChanges.clear();
                 throw e;
             }
         }
     }
 
-    private void undoChanges(List<Change> changes, CommitDirector commitDirector) {
+    private void undoChanges(List<PersistableChange> changes, CommitDirector commitDirector) {
         for (Change change : changes) {
             change.undo(commitDirector);
         }
     }
 
     public void undoChanges(CommitDirector commitDirector) {
-        undoChanges(changes, commitDirector);
+        undoChanges(appliedChanges, commitDirector);
     }
 
     @Override
