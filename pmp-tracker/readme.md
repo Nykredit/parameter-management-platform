@@ -17,13 +17,13 @@ mvn clean package
 build image:
 
 ```sh
-docker build -it tracker:v1 .
+docker build -t tracker:v1 .
 ```
 
 run image:
 
 ```sh
-docker run --rm -p 8080:8080 tracker:v1
+docker run --rm -it -p 8080:8080 tracker:v1
 ```
 
 The tracker is then hosted at
