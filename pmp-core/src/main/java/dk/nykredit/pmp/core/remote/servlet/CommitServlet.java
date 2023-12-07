@@ -37,8 +37,6 @@ public class CommitServlet extends HttpServlet {
         Commit commit = commitFactory.createCommit(rawCommit);
 
 
-        System.out.println("Applying commit: " + commit.toString());
-
         try {
             commitDirector.apply(commit);
             res.setStatus(HttpServletResponse.SC_OK);
@@ -54,5 +52,4 @@ public class CommitServlet extends HttpServlet {
             res.getWriter().write("Could not apply commit, parameter not found.");
         }
     }
-
 }

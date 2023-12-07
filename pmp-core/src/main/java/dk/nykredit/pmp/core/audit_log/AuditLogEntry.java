@@ -36,7 +36,6 @@ public class AuditLogEntry {
 
     @Column(name = "AFFECTED_SERVICES")
     private String affectedServices;
-
     public List<ChangeEntity> getChangeEntities() {
         return changes;
     }
@@ -50,5 +49,29 @@ public class AuditLogEntry {
                 ", user='" + user + '\'' +
                 ", message='" + message + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AuditLogEntry)) {
+            return false;
+        }
+
+        AuditLogEntry other = (AuditLogEntry) obj;
+
+        return commitId == other.commitId
+                && pushDate.equals(other.pushDate)
+                && user.equals(other.user)
+                && message.equals(other.message)
+                && changes.equals(other.changes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(commitId)
+                + pushDate.hashCode()
+                + user.hashCode()
+                + message.hashCode()
+                + changes.stream().mapToInt(ChangeEntity::hashCode).sum();
     }
 }

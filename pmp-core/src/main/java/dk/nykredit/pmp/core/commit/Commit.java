@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,8 @@ public class Commit {
 
     private List<Change> changes;
 
-    private List<PersistableChange> appliedChanges;
+    @JsonIgnore
+    private List<ChangeEntity> appliedChanges;
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
@@ -38,9 +40,9 @@ public class Commit {
         }
     }
 
-    private void undoChanges(List<PersistableChange> changes, CommitDirector commitDirector) {
-        for (Change change : changes) {
-            change.undo(commitDirector);
+    private void undoChanges(List<ChangeEntity> changes, CommitDirector commitDirector) {
+        for (ChangeEntity change : changes) {
+            commitDirector.getParameterService().updateParameter(change.getParameterName(), change.getOldValue());
         }
     }
 

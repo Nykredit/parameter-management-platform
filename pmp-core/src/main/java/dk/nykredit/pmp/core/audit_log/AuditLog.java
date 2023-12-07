@@ -5,10 +5,11 @@ import java.util.List;
 import dk.nykredit.pmp.core.commit.Commit;
 
 public interface AuditLog {
-	void logCommit(Commit commit);
+    void logCommit(Commit commit);
 
-	AuditLogEntry getLatestCommitToParameter(String name);
+    AuditLogEntry getLatestCommitToParameter(String name);
 
-	AuditLogEntry getAuditLogEntry(long commitHash);
-	List<AuditLogEntry> getEntries();
+    AuditLogEntry getAuditLogEntry(long commitHash);
+
+    List<AuditLogEntry> getEntries();
 }
