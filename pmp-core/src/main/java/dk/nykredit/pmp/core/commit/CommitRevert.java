@@ -16,6 +16,12 @@ import lombok.Setter;
 public class CommitRevert implements Change {
     private long commitHash;
 
+    public CommitRevert() {
+    }
+    public CommitRevert(long commitHash) {
+        this.commitHash = commitHash;
+    }
+
     public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
         AuditLog auditLog = commitDirector.getAuditLog();
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
@@ -48,7 +54,7 @@ public class CommitRevert implements Change {
                 continue;
             }
 
-            change.toChange().apply(commitDirector);
+            // change.toChange().apply(commitDirector);
         }
     }
 

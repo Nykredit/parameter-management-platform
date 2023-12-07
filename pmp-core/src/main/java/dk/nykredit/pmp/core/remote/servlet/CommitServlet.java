@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dk.nykredit.pmp.core.commit.Commit;
 import dk.nykredit.pmp.core.commit.CommitDirector;
+import dk.nykredit.pmp.core.commit.CommitFactory;
+import dk.nykredit.pmp.core.commit.RawCommit;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.StoredValueNullException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
@@ -24,11 +26,16 @@ public class CommitServlet extends HttpServlet {
     @Inject
     private CommitDirector commitDirector;
 
+    @Inject
+    private CommitFactory commitFactory;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         ObjectMapper mapper = objectMapperFactory.getObjectMapper();
 
-        Commit commit = mapper.readValue(req.getInputStream(), Commit.class);
+        RawCommit rawCommit = mapper.readValue(req.getInputStream(), RawCommit.class);
+        Commit commit = commitFactory.createCommit(rawCommit);
+
 
         System.out.println("Applying commit: " + commit.toString());
 

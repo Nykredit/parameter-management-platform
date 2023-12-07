@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +17,10 @@ public class Commit {
     private String user;
     private String message;
     private List<String> affectedServices;
+    private long commitHash;
 
     private List<Change> changes;
 
-    @JsonIgnore
     private List<PersistableChange> appliedChanges;
 
     // Uses command pattern to apply changes
@@ -71,6 +69,10 @@ public class Commit {
                 + message.hashCode()
                 + changes.stream().mapToInt(Change::hashCode).sum();
 
+    }
+
+    public List<Change> getChanges() {
+        return changes;
     }
 
     @Override

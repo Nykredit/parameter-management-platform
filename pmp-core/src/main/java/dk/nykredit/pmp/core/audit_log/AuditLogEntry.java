@@ -37,23 +37,8 @@ public class AuditLogEntry {
     @Column(name = "AFFECTED_SERVICES")
     private String affectedServices;
 
-    public List<Change> getChanges() {
-        return changes.stream().map(ChangeEntity::toChange).collect(Collectors.toList());
-    }
-
     public List<ChangeEntity> getChangeEntities() {
         return changes;
-    }
-
-    public Commit toCommit() {
-        Commit commit = new Commit();
-        commit.setPushDate(pushDate);
-        commit.setUser(user);
-        commit.setMessage(message);
-        commit.setChanges(getChanges());
-        commit.setAffectedServices(List.of(affectedServices.split(",")));
-
-        return commit;
     }
 
     @Override

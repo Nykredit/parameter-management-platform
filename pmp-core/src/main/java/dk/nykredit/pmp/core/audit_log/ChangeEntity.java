@@ -44,23 +44,6 @@ public class ChangeEntity {
     @Column(name = "COMMIT_REVERT_REF")
     private long commitRevertRef;
 
-    public Change toChange() {
-        switch (changeType) {
-            case PARAMETER_CHANGE:
-                return new ParameterChange(parameterName, parameterType, oldValue, newValue);
-
-            case COMMIT_REVERT:
-                return new ParameterRevert(parameterName, parameterType, oldValue, newValue, commitRevertRef,
-                        changeType);
-
-            case PARAMETER_REVERT:
-                return new ParameterRevert(parameterName, parameterType, oldValue, newValue, commitRevertRef,
-                        changeType);
-            default:
-                return null;
-        }
-    }
-
     @Override
     public String toString() {
         return "ChangeEntity{" +

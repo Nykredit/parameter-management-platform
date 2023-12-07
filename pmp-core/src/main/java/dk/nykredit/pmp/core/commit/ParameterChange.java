@@ -1,6 +1,5 @@
 package dk.nykredit.pmp.core.commit;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
@@ -16,8 +15,6 @@ import java.util.List;
 
 @Getter
 @Setter
-// TODO: Delete this when we put services on this object
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ParameterChange implements PersistableChange {
     protected String name;
     protected String type;
@@ -25,15 +22,20 @@ public class ParameterChange implements PersistableChange {
     @JsonProperty("value")
     protected String oldValue;
     protected String newValue;
+    protected String id;
+
+    private Service service;
 
     public ParameterChange() {
     }
 
-    public ParameterChange(String name, String type, String oldValue, String newValue) {
+    public ParameterChange(String name, String type, String oldValue, String newValue, Service service, String id) {
         this.name = name;
         this.type = type;
         this.oldValue = oldValue;
         this.newValue = newValue;
+        this.service = service;
+        this.id = id;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class PMPServerImpl implements PMPServer {
             ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
             try {
                 trackerService.announce(serviceInfo.getPmpRoot(), serviceInfo.getName(), serviceInfo.getEnvironment());
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 throw new Error(e);
             }
             
