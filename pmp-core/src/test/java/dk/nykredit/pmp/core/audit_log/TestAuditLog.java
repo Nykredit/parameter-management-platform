@@ -63,13 +63,16 @@ public class TestAuditLog extends H2StartDatabase {
 
         commitDirector.apply(commit);
 
-        Commit commit2 = auditLog.getCommit(commit.getCommitHash());
+        AuditLogEntry commitEntry2 = auditLog.getAuditLogEntry(commit.getCommitHash());
+        AuditLogEntry commitEntry = new AuditLogEntryFactory().createAuditLogEntry(commit);
 
-        assertEquals(commit, commit2);
+        assertEquals(commitEntry, commitEntry2);
     }
 
     @Test
     void testLogCommitRevert() {
+        ParameterService parameterService = commitDirector.getParameterService();
+        parameterService.getRepository().startTransaction();
 
         Commit commit = new Commit();
         commit.setUser("author");
@@ -84,12 +87,11 @@ public class TestAuditLog extends H2StartDatabase {
         changes.add(c1);
         changes.add(c2);
         commit.setChanges(changes);
-        long commitHash = commit.getCommitHash();
 
         commitDirector.apply(commit);
 
         CommitRevert commitRevert = new CommitRevert();
-        commitRevert.setCommitHash(commitHash);
+        commitRevert.setCommitHash(commit.getCommitHash());
 
         List<Change> changes2 = new ArrayList<>();
         changes2.add(commitRevert);
@@ -103,8 +105,10 @@ public class TestAuditLog extends H2StartDatabase {
 
         commitDirector.apply(commit2);
 
-        Commit commit3 = auditLog.getCommit(commit2.getCommitHash());
+        AuditLogEntry commitEntry2 = auditLog.getAuditLogEntry(commit2.getCommitHash());
 
-        assertEquals(commit2.getAppliedChanges(), commit3.getChanges());
+        assertEquals("data1", commitEntry2.getChanges().get(0).getNewValue());
+
+        parameterService.getRepository().endTransaction();
     }
 }

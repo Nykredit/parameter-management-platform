@@ -9,14 +9,14 @@ interface ServiceListElementProps {
 }
 
 const ServiceListElement = ({ service }: ServiceListElementProps) => {
-    const { data: parameters, error } = useParameterQuery(service);
+    const { data, error } = useParameterQuery(service);
 
     return (
         <CollapsibleList
             defaultOpen
             handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
         >
-            {parameters && <ParameterList service={service} parameters={parameters} />}
+            {data?.parameters && <ParameterList service={service} parameters={data.parameters} />}
             {error && <Typography use='headline6'>Error loading parameters</Typography>}
         </CollapsibleList>
     );

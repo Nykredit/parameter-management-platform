@@ -41,9 +41,8 @@ const usePushCommitSingleService = () => {
             const token = (await instance.acquireTokenSilent({ account: accounts[0], scopes })).accessToken;
 
             const adaptedData = adaptCommit(commit);
-            console.log(adaptedData);
 
-            const res = await axios.post(service.address, adaptedData, {
+            const res = await axios.post(`http://${service.address}/commit`, adaptedData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'pmp-environment': environment

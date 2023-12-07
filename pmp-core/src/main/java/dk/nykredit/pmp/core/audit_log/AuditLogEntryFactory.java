@@ -1,10 +1,6 @@
 package dk.nykredit.pmp.core.audit_log;
 
-import dk.nykredit.pmp.core.commit.PersistableChange;
 import dk.nykredit.pmp.core.commit.Commit;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AuditLogEntryFactory {
 
@@ -17,12 +13,11 @@ public class AuditLogEntryFactory {
         entry.setMessage(commit.getMessage());
         entry.setAffectedServices(String.join(",", commit.getAffectedServices()));
 
-        List<ChangeEntity> changes = new ArrayList<>();
-        for (PersistableChange change : commit.getAppliedChanges()) {
-            changes.add(change.toChangeEntity(new ChangeEntityFactory(entry)));
+        for (ChangeEntity changeEntity : commit.getAppliedChanges()) {
+            changeEntity.setCommit(entry);
         }
 
-        entry.setChanges(changes);
+        entry.setChanges(commit.getAppliedChanges());
 
         return entry;
     }
