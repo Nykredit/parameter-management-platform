@@ -2,7 +2,6 @@ package dk.nykredit.pmp.core.commit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
