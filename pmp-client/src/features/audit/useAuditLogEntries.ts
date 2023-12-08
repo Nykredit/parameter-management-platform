@@ -59,7 +59,7 @@ const useAuditLogEntries = (queryString: string) => {
 
     return useQueries({
         queries: services.map((service) => ({
-            queryKey: ['auditLogEntries', service.address, queryString],
+            queryKey: ['auditLogEntries', service.name, queryString],
             queryFn: async () => {
                 const token = accounts[0].idToken;
                 if (!token) throw new Error('No token');
