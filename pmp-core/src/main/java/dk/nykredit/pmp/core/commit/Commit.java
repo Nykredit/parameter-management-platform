@@ -27,6 +27,11 @@ public class Commit {
     @JsonIgnore
     private List<ChangeEntity> appliedChanges;
 
+    public Commit() {
+        changes = new ArrayList<>();
+        affectedServices = new ArrayList<>();
+    }
+
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
         appliedChanges = new ArrayList<>(changes.size());

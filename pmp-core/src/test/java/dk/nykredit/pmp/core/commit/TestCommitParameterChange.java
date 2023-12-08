@@ -1,11 +1,8 @@
 package dk.nykredit.pmp.core.commit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
-import dk.nykredit.pmp.core.remote.json.ObjectMapperFactoryImpl;
 import dk.nykredit.pmp.core.service.ParameterService;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -23,27 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class TestCommitParameterChange extends H2StartDatabase {
 
-	private static final String commitJson = "{\n" +
-			"    \"changes\": [\n" +
-			"        {\n" +
-			"            \"newValue\": \"data2\",\n" +
-			"            \"service\": { \"name\": \"service2\", \"address\": \"2.2.2.2\", \"environment\": { \"environment\": \"prod\" } },\n" +
-			"            \"id\": \"61\",\n" +
-			"            \"name\": \"test1\",\n" +
-			"            \"type\": \"String\",\n" +
-			"            \"value\": \"data1\"\n" +
-			"        }\n" +
-			"    ],\n" +
-			"    \"user\": \"test\",\n" +
-			"    \"message\": \"test commit\",\n" +
-			"    \"pushDate\": \"2023-11-28T09:15:12.293Z\",\n" +
-			"    \"affectedServices\": [\"service2\"]\n" +
-			"}";
-
     private WeldContainer container;
     private CommitDirector commitDirector;
-
-    private ObjectMapper mapper;
 
     @BeforeEach
     public void before() {
@@ -53,8 +31,6 @@ public class TestCommitParameterChange extends H2StartDatabase {
         ParameterService parameterService = commitDirector.getParameterService();
         parameterService.persistParameter("test1", "data1");
         parameterService.persistParameter("test2", 5);
-
-        mapper = new ObjectMapperFactoryImpl().getObjectMapper();
     }
 
     @AfterEach
@@ -182,24 +158,4 @@ public class TestCommitParameterChange extends H2StartDatabase {
         assertEquals((Integer) 5, parameterService.findParameterByName("test2"));
         assertEquals("data1", parameterService.findParameterByName("test1"));
     }
-
-    @Test
-    public void testParseCommit() throws JsonProcessingException {
-        LocalDateTime pushDate = LocalDateTime.of(2023, 11, 28, 9, 15, 12, (int) 2.93e8);
-
-        List<Change> changes = new ArrayList<>();
-        ParameterChange change = new ParameterChange();
-        change.setName("test1");
-        change.setType("String");
-        change.setOldValue("data1");
-        change.setNewValue("data2");
-        changes.add(change);
-
-		Commit commit = mapper.readValue(commitJson, Commit.class);
-		assertEquals("test", commit.getUser());
-		assertEquals("test commit", commit.getMessage());
-		assertEquals(pushDate, commit.getPushDate());
-		assertEquals(changes, commit.getChanges());
-		assertEquals(List.of("service2"), commit.getAffectedServices());
-	}
 }

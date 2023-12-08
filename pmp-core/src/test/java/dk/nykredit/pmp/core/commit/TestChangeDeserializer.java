@@ -2,6 +2,10 @@ package dk.nykredit.pmp.core.commit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
@@ -24,8 +28,10 @@ public class TestChangeDeserializer {
     private WeldContainer container;
     private CommitDirector commitDirector;
 
+
     @BeforeEach
     public void setupMapper() {
+
         Weld weld = new Weld();
         container = weld.initialize();
         commitDirector = container.select(CommitDirector.class).get();
@@ -62,13 +68,11 @@ public class TestChangeDeserializer {
 
         RawParameterRevert expectedRevert = new RawParameterRevert();
         expectedRevert.setParameterName("test1");
-        expectedRevert.setCommitHash("10");
+        expectedRevert.setCommitHash("10AC");
         expectedRevert.setRevertType("parameter");
         expectedRevert.setService(new Service("testServiceName","testServiceAddress", "testServiceEnvironment"));
 
-
-
-        String json = "{\"parameterName\":\"test1\",\"commitHash\":\"10\",\"revertType\":\"parameter\",\"service\":{\"name\":\"testServiceName\",\"address\":\"testServiceAddress\",\"environment\":\"testServiceEnvironment\"}}";
+        String json = "{\"parameterName\":\"test1\",\"commitHash\":\"10AC\",\"revertType\":\"parameter\",\"service\":{\"name\":\"testServiceName\",\"address\":\"testServiceAddress\",\"environment\":\"testServiceEnvironment\"}}";
         RawParameterRevert revert = mapper.readValue(json, RawParameterRevert.class);
 
         assertEquals(expectedRevert, revert);
@@ -87,4 +91,41 @@ public class TestChangeDeserializer {
 
         assertEquals(expectedRevert, revert);
     }
+
+    @Test
+    public void testDeserializeRawCommit() throws JsonProcessingException {
+        String json = "{\"user\":\"author\",\"message\":\"test commit\",\"pushDate\":\"2020-05-05T12:00:00\",\"affectedServices\":[\"service1\"],\"changes\":[{\"name\":\"test1\",\"newValue\":\"data2\",\"value\":\"data1\",\"type\":\"String\",\"id\":\"id1\",\"service\":{\"name\":\"service1\",\"address\":\"service1Address\",\"environment\":\"service1Environment\"}},{\"name\":\"test2\",\"newValue\":\"6\",\"value\":\"5\",\"type\":\"Integer\",\"id\":\"id2\",\"service\":{\"name\":\"service1\",\"address\":\"service1Address\",\"environment\":\"service1Environment\"}}]}";
+        List<String> expectedAffectedServices = new ArrayList<String>();
+        expectedAffectedServices.add("service1");
+        List<RawChange> expectedChanges = new ArrayList<RawChange>();
+
+
+        RawCommit expectedCommit = new RawCommit();
+        expectedCommit.setUser("author");
+        expectedCommit.setMessage("test commit");
+        expectedCommit.setPushDate("2020-05-05T12:00:00");
+        expectedCommit.setAffectedServices(expectedAffectedServices);
+        RawParameterChange change1 = new RawParameterChange();
+        change1.setName("test1");
+        change1.setNewValue("data2");
+        change1.setOldValue("data1");
+        change1.setType("String");
+        change1.setId("id1");
+        change1.setService(new Service("service1", "service1Address", "service1Environment"));
+        expectedChanges.add(change1);
+        RawParameterChange change2 = new RawParameterChange();
+        change2.setName("test2");
+        change2.setNewValue("6");
+        change2.setOldValue("5");
+        change2.setType("Integer");
+        change2.setId("id2");
+        change2.setService(new Service("service1", "service1Address", "service1Environment"));
+        expectedChanges.add(change2);
+        expectedCommit.setChanges(expectedChanges);
+
+        RawCommit commit = mapper.readValue(json, RawCommit.class);
+
+        assertEquals(expectedCommit, commit);
+    }
+
 }
