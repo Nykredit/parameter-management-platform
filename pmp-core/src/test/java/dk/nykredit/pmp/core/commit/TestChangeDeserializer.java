@@ -2,15 +2,11 @@ package dk.nykredit.pmp.core.commit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
 
 import dk.nykredit.pmp.core.remote.json.ObjectMapperFactory;
-import dk.nykredit.pmp.core.remote.json.RevertAdapter;
 import dk.nykredit.pmp.core.service.ParameterService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -46,90 +42,48 @@ public class TestChangeDeserializer {
     }
 
     @Test
-    public void testDeserializeParameterChange() throws JsonProcessingException {
-        ParameterChange expectedChange = new ParameterChange();
+    public void testDeserializeRawParameterChange() throws Exception {
+        RawParameterChange expectedChange = new RawParameterChange();
         expectedChange.setName("test");
         expectedChange.setNewValue("0");
         expectedChange.setOldValue("1");
         expectedChange.setType("integer");
+        expectedChange.setId("id");
+        expectedChange.setService(new Service("testServiceName","testServiceAddress", "testServiceEnvironment"));
 
         String json = mapper.writeValueAsString(expectedChange);
-        RawChange change = mapper.readValue(json, RawChange.class);
+        RawChange change = mapper.readValue(json, RawParameterChange.class);
+
         assertEquals(expectedChange, change);
     }
 
     @Test
-    public void testDeserializeParameterRevert() throws JsonProcessingException {
+    public void testDeserializeRawParameterRevert() throws JsonProcessingException {
 
-        ParameterChange paramChange = new ParameterChange(
-            "test1",
-            "String", 
-            "data1", 
-            "data2", 
-            new Service(
-                "service1", 
-                "service1Address", 
-                "service1Environment"), 
-            "id1");
-        Commit commit = new Commit();
-        commit.setPushDate(LocalDateTime.now());
-        commit.setUser("author");
-        commit.setMessage("test");
-        commit.setChanges(List.of(paramChange));
-        commit.setAffectedServices(List.of("service1"));
+        RawParameterRevert expectedRevert = new RawParameterRevert();
+        expectedRevert.setParameterName("test1");
+        expectedRevert.setCommitHash("10");
+        expectedRevert.setRevertType("parameter");
+        expectedRevert.setService(new Service("testServiceName","testServiceAddress", "testServiceEnvironment"));
 
-        commitDirector.apply(commit);
 
-        RevertAdapter revertAdapter = new RevertAdapter();
 
-        revertAdapter.setParameterName("test1");
-        revertAdapter.setCommitReference(Long.toHexString(commit.getCommitHash()));
-        revertAdapter.setRevertType("parameter");
-
-        String json = mapper.writeValueAsString(revertAdapter);
-        RawChange revert = mapper.readValue(json, RawChange.class);
-
-        ParameterRevert expectedRevert = new ParameterRevert();
-        expectedRevert.setCommitHash(commit.getCommitHash());
-        expectedRevert.setParameterName(paramChange.getName());
+        String json = "{\"parameterName\":\"test1\",\"commitHash\":\"10\",\"revertType\":\"parameter\",\"service\":{\"name\":\"testServiceName\",\"address\":\"testServiceAddress\",\"environment\":\"testServiceEnvironment\"}}";
+        RawParameterRevert revert = mapper.readValue(json, RawParameterRevert.class);
 
         assertEquals(expectedRevert, revert);
     }
 
     @Test
-    public void testDeserializeCommitRevert() throws JsonProcessingException {
+    public void testDeserializeRawCommitRevert() throws JsonProcessingException {
         
-        ParameterChange paramChange = new ParameterChange(
-            "test1",
-            "String", 
-            "data1", 
-            "data2", 
-            new Service(
-                "service1", 
-                "service1Address", 
-                "service1Environment"), 
-            "id1");
-        
-        Commit commit = new Commit();
-        commit.setPushDate(LocalDateTime.now());
-        commit.setUser("author");
-        commit.setMessage("test");
-        commit.setChanges(List.of(paramChange));
-        commit.setAffectedServices(List.of("service1"));
+        String json = "{\"commitHash\":\"10\"}";
 
-        commitDirector.apply(commit);
 
-        RevertAdapter revertAdapter = new RevertAdapter();
+        RawCommitRevert expectedRevert = new RawCommitRevert();
+        expectedRevert.setCommitHash("10");
 
-        revertAdapter.setParameterName("test1");
-        revertAdapter.setCommitReference(Long.toHexString(commit.getCommitHash()));
-        revertAdapter.setRevertType("commit");
-
-        String json = mapper.writeValueAsString(revertAdapter);
-        RawChange revert = mapper.readValue(json, RawChange.class);
-
-        CommitRevert expectedRevert = new CommitRevert();
-        expectedRevert.setCommitHash(commit.getCommitHash());
+        RawCommitRevert revert = mapper.readValue(json, RawCommitRevert.class);
 
         assertEquals(expectedRevert, revert);
     }
