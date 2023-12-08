@@ -15,16 +15,23 @@ import lombok.Setter;
 @Setter
 public class ParameterRevert implements Change {
     private long commitHash;
+    private String revertType;
+    private Service service;
     private String parameterName;
 
     public ParameterRevert() {
     }
 
-    public ParameterRevert(String name, String type, String oldValue, String newValue, long commitHash,
-            ChangeType revertType, Service service, String id) {
-        super(name, type, oldValue, newValue, service, id);
-        this.commitHash = commitHash;
+    public ParameterRevert(String parameterName, long commitHash, String type, Service service) {
         this.parameterName = parameterName;
+        this.commitHash = commitHash;
+        this.revertType = type;
+        this.service = service;
+    }
+
+    public ParameterRevert(String parameterName, long commitHash) {
+        this.parameterName = parameterName;
+        this.commitHash = commitHash;
     }
 
     @Override

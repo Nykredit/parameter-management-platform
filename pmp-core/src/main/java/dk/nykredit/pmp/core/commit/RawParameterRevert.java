@@ -1,30 +1,26 @@
 package dk.nykredit.pmp.core.commit;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import dk.nykredit.pmp.core.audit_log.ChangeType;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class RawParameterRevert implements RawChange {
-    private String name;
-    private String type;
-    private String id;
+    private String parameterName;
     private long commitHash;
-    private ChangeType revertType;
-    private String oldValue;
-    private String newValue;
+    private String revertType;
     private Service service;
 
     public RawParameterRevert() {
     }
 
-    public RawParameterRevert(String name, String type, long commitHash, ChangeType revertType) {
-        this.name = name;
-        this.type = type;
+    public RawParameterRevert(String parameterName, String revertType, long commitHash, Service service) {
+        this.parameterName = parameterName;
         this.commitHash = commitHash;
         this.revertType = revertType;
+    }
+
+    public void setCommitHash(String commitHash) {
+        this.commitHash = Long.parseUnsignedLong(commitHash, 16);
     }
 }

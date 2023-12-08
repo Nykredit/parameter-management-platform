@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;

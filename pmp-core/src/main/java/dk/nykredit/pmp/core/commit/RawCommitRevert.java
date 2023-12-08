@@ -10,4 +10,8 @@ public class RawCommitRevert implements RawChange {
 
     public RawCommitRevert() {
     }
+
+    public void setCommitHash(String commitHash) {
+        this.commitHash = Long.parseUnsignedLong(commitHash, 16);
+    }
 }

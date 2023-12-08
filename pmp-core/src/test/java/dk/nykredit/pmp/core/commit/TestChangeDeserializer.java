@@ -54,14 +54,23 @@ public class TestChangeDeserializer {
         expectedChange.setType("integer");
 
         String json = mapper.writeValueAsString(expectedChange);
-        Change change = mapper.readValue(json, Change.class);
+        RawChange change = mapper.readValue(json, RawChange.class);
         assertEquals(expectedChange, change);
     }
 
     @Test
     public void testDeserializeParameterRevert() throws JsonProcessingException {
 
-        ParameterChange paramChange = new ParameterChange("test1", "String", "data1", "data2");
+        ParameterChange paramChange = new ParameterChange(
+            "test1",
+            "String", 
+            "data1", 
+            "data2", 
+            new Service(
+                "service1", 
+                "service1Address", 
+                "service1Environment"), 
+            "id1");
         Commit commit = new Commit();
         commit.setPushDate(LocalDateTime.now());
         commit.setUser("author");
@@ -78,7 +87,7 @@ public class TestChangeDeserializer {
         revertAdapter.setRevertType("parameter");
 
         String json = mapper.writeValueAsString(revertAdapter);
-        Change revert = mapper.readValue(json, Change.class);
+        RawChange revert = mapper.readValue(json, RawChange.class);
 
         ParameterRevert expectedRevert = new ParameterRevert();
         expectedRevert.setCommitHash(commit.getCommitHash());
@@ -89,7 +98,18 @@ public class TestChangeDeserializer {
 
     @Test
     public void testDeserializeCommitRevert() throws JsonProcessingException {
-        ParameterChange paramChange = new ParameterChange("test1", "String", "data1", "data2");
+        
+        ParameterChange paramChange = new ParameterChange(
+            "test1",
+            "String", 
+            "data1", 
+            "data2", 
+            new Service(
+                "service1", 
+                "service1Address", 
+                "service1Environment"), 
+            "id1");
+        
         Commit commit = new Commit();
         commit.setPushDate(LocalDateTime.now());
         commit.setUser("author");
@@ -106,7 +126,7 @@ public class TestChangeDeserializer {
         revertAdapter.setRevertType("commit");
 
         String json = mapper.writeValueAsString(revertAdapter);
-        Change revert = mapper.readValue(json, Change.class);
+        RawChange revert = mapper.readValue(json, RawChange.class);
 
         CommitRevert expectedRevert = new CommitRevert();
         expectedRevert.setCommitHash(commit.getCommitHash());

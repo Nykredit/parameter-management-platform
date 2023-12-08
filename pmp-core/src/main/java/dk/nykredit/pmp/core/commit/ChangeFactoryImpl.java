@@ -27,14 +27,10 @@ public class ChangeFactoryImpl implements ChangeFactory{
 
     public ParameterRevert createChange(RawParameterRevert rawChange) {
         return new ParameterRevert(
-            rawChange.getName(),
-            rawChange.getType(),
-            rawChange.getOldValue(),
-            rawChange.getNewValue(),
+            rawChange.getParameterName(),
             rawChange.getCommitHash(),
             rawChange.getRevertType(),
-            rawChange.getService(),
-            rawChange.getId()
+            rawChange.getService()
         );
     }
 

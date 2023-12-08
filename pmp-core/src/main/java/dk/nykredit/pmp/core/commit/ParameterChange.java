@@ -15,14 +15,14 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ParameterChange implements PersistableChange {
-    protected String name;
-    protected String type;
+public class ParameterChange implements Change {
+    private String name;
+    private String type;
 
     @JsonProperty("value")
-    protected String oldValue;
-    protected String newValue;
-    protected String id;
+    private String oldValue;
+    private String newValue;
+    private String id;
 
     private Service service;
 

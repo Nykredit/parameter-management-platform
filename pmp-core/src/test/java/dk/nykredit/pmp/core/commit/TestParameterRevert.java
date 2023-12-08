@@ -45,9 +45,26 @@ public class TestParameterRevert extends H2StartDatabase {
         commit.setPushDate(LocalDateTime.now());
         commit.setAffectedServices(List.of("service1"));
 
-        Change c1 = new ParameterChange("test1", "String", "data1", "data2");
-        Change c2 = new ParameterChange("test2", "Integer", "5", "10");
-
+        Change c1 = new ParameterChange(
+            "test1",
+            "String", 
+            "data1", 
+            "data2", 
+            new Service(
+                "service1", 
+                "service1Address", 
+                "service1Environment"), 
+            "id1");
+        Change c2 = new ParameterChange(
+            "test2",
+            "int", 
+            "10", 
+            "5", 
+            new Service(
+                "service1", 
+                "service1Address", 
+                "service1Environment"), 
+            "id2");
         List<Change> changes = new ArrayList<>();
         changes.add(c1);
         changes.add(c2);

@@ -19,12 +19,6 @@ public class CommitRevert implements Change {
 
     public CommitRevert() {
     }
-    public CommitRevert(long commitHash) {
-        this.commitHash = commitHash;
-    }
-
-    public CommitRevert() {
-    }
 
     public CommitRevert(long commitHash) {
         this.commitHash = commitHash;
