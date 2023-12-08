@@ -11,6 +11,11 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
 
 import dk.nykredit.pmp.core.remote.json.ObjectMapperFactory;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawCommit;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawCommitRevert;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawParameterChange;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawParameterRevert;
 import dk.nykredit.pmp.core.service.ParameterService;
 
 import org.junit.jupiter.api.BeforeEach;

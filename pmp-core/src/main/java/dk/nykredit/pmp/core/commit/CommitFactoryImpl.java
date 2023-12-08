@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawCommit;
+
 public class CommitFactoryImpl implements CommitFactory {
 
     @Inject

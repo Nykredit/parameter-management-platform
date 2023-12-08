@@ -1,4 +1,4 @@
-package dk.nykredit.pmp.core.commit;
+package dk.nykredit.pmp.core.remote.json.raw_types;
 
 import lombok.Getter;
 import lombok.Setter;

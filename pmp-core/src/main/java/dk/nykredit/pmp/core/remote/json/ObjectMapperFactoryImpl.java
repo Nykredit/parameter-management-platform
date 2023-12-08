@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
-import dk.nykredit.pmp.core.commit.RawChange;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

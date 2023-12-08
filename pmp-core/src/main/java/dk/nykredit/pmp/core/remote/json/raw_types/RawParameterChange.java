@@ -1,7 +1,8 @@
-package dk.nykredit.pmp.core.commit;
+package dk.nykredit.pmp.core.remote.json.raw_types;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import dk.nykredit.pmp.core.commit.Service;
 import lombok.Getter;
 import lombok.Setter;
 

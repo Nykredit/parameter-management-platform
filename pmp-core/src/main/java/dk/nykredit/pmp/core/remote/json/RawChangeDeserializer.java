@@ -9,10 +9,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
-import dk.nykredit.pmp.core.commit.RawChange;
-import dk.nykredit.pmp.core.commit.RawCommitRevert;
-import dk.nykredit.pmp.core.commit.RawParameterChange;
-import dk.nykredit.pmp.core.commit.RawParameterRevert;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawCommitRevert;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawParameterChange;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawParameterRevert;
 
 public class RawChangeDeserializer extends StdDeserializer<RawChange> {
 
