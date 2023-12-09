@@ -7,6 +7,7 @@ import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.service.ParameterService;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -99,5 +100,10 @@ public class ParameterChange implements Change {
                 ", oldValue='" + oldValue + '\'' +
                 ", newValue='" + newValue + '\'' +
                 '}';
+    }
+
+    @Override
+    public void visit(ChangeVisitor changeVisitor) {
+        changeVisitor.visit(this);
     }
 }
