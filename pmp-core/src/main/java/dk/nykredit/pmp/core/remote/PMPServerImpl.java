@@ -1,17 +1,12 @@
 package dk.nykredit.pmp.core.remote;
 
-import dk.nykredit.pmp.core.util.ServiceInfo;
-import dk.nykredit.pmp.core.util.ServiceInfoProvider;
-import dk.nykredit.pmp.core.util.ServiceInfoProviderImpl;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 
 public class PMPServerImpl implements PMPServer {
 
     // TODO: This can be injected but Weld is being rude :(
-    private final TrackerService trackerService = new TrackerServiceImpl();
     private final PMPHandlerFactory handlerFactory = new PMPHandlerFactoryImpl();
-    private final ServiceInfoProvider serviceInfoProvider = new ServiceInfoProviderImpl();
 
     private final Server server;
     private final int port;
