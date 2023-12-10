@@ -42,10 +42,10 @@ public class TestCommitParameterChange extends H2StartDatabase {
     public void testApplyStringParameterChange() {
         ParameterService parameterService = commitDirector.getParameterService();
 
-		Commit commit = new Commit();
-		commit.setUser("author");
-		commit.setPushDate(LocalDateTime.now());
-		commit.setAffectedServices(List.of("service1"));
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change = new ParameterChange();
@@ -65,10 +65,10 @@ public class TestCommitParameterChange extends H2StartDatabase {
     public void testApplyIntegerParameterChange() {
         ParameterService parameterService = commitDirector.getParameterService();
 
-		Commit commit = new Commit();
-		commit.setUser("author");
-		commit.setPushDate(LocalDateTime.now());
-		commit.setAffectedServices(List.of("service1"));
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change = new ParameterChange();
@@ -82,6 +82,49 @@ public class TestCommitParameterChange extends H2StartDatabase {
         assertDoesNotThrow(() -> commit.apply(commitDirector));
 
         assertEquals((Integer) 6, parameterService.findParameterByName("test2"));
+    }
+
+    @Test
+    public void testApplyConsecutiveIntegerParameterChange() {
+        ParameterService parameterService = commitDirector.getParameterService();
+
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
+
+        List<Change> changes = new ArrayList<>();
+        ParameterChange change = new ParameterChange();
+        change.setName("test2");
+        change.setNewValue("6");
+        change.setOldValue("5");
+        change.setType("Integer");
+        changes.add(change);
+
+        commit.setChanges(changes);
+        assertDoesNotThrow(() -> commit.apply(commitDirector));
+
+        assertEquals((Integer) 6, parameterService.findParameterByName("test2"));
+
+        ParameterService parameterService2 = commitDirector.getParameterService();
+
+        Commit commit2 = new Commit();
+        commit2.setUser("author");
+        commit2.setPushDate(LocalDateTime.now());
+        commit2.setAffectedServices(List.of("service1"));
+
+        List<Change> changes2 = new ArrayList<>();
+        ParameterChange change2 = new ParameterChange();
+        change2.setName("test2");
+        change2.setNewValue("7");
+        change2.setOldValue("6");
+        change2.setType("Integer");
+        changes2.add(change2);
+
+        commit2.setChanges(changes2);
+        assertDoesNotThrow(() -> commit2.apply(commitDirector));
+
+        assertEquals((Integer) 7, parameterService2.findParameterByName("test2"));
     }
 
     @Test
@@ -132,10 +175,10 @@ public class TestCommitParameterChange extends H2StartDatabase {
     public void testUndoMultipleValues() {
         ParameterService parameterService = commitDirector.getParameterService();
 
-		Commit commit = new Commit();
-		commit.setUser("author");
-		commit.setPushDate(LocalDateTime.now());
-		commit.setAffectedServices(List.of("service1"));
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change1 = new ParameterChange();

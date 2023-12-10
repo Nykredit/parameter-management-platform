@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
 import dk.nykredit.pmp.core.remote.json.raw_types.RawCommit;
 import dk.nykredit.pmp.core.util.ChangeValidator;
+import dk.nykredit.pmp.core.util.ChangeValidatorFactory;
 
 public class CommitFactoryImpl implements CommitFactory {
 
@@ -12,7 +13,7 @@ public class CommitFactoryImpl implements CommitFactory {
     private ChangeFactory changeFactory;
 
     @Inject
-    private ChangeValidator changeValidator;
+    private ChangeValidatorFactory changeValidatorFactory;
 
     // Recieve rawCommit
     // Create commit object
@@ -30,6 +31,8 @@ public class CommitFactoryImpl implements CommitFactory {
         commit.setMessage(rawCommit.getMessage());
         commit.setAffectedServices(rawCommit.getAffectedServices());
 
+        ChangeValidator changeValidator = changeValidatorFactory.createChangeValidator();
+
         for (RawChange change : rawCommit.getChanges()) {
             Change convertedChange = changeFactory.createChange(change);
             convertedChange.visit(changeValidator);
@@ -41,8 +44,8 @@ public class CommitFactoryImpl implements CommitFactory {
 
     private int calculateHash(RawCommit rawCommit) {
         return rawCommit.getPushDate().hashCode()
-        + rawCommit.getUser().hashCode()
-        + rawCommit.getMessage().hashCode()
-        + rawCommit.getChanges().stream().mapToInt(RawChange::hashCode).sum();
+                + rawCommit.getUser().hashCode()
+                + rawCommit.getMessage().hashCode()
+                + rawCommit.getChanges().stream().mapToInt(RawChange::hashCode).sum();
     }
 }
