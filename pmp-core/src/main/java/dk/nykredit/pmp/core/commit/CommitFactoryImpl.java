@@ -2,6 +2,7 @@ package dk.nykredit.pmp.core.commit;
 
 import javax.inject.Inject;
 
+import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
 import dk.nykredit.pmp.core.remote.json.raw_types.RawCommit;
 import dk.nykredit.pmp.core.util.ChangeValidator;
@@ -14,6 +15,9 @@ public class CommitFactoryImpl implements CommitFactory {
 
     @Inject
     private ChangeValidatorFactory changeValidatorFactory;
+
+    @Inject
+    AuditLog auditLog;
 
     // Recieve rawCommit
     // Create commit object
@@ -35,7 +39,7 @@ public class CommitFactoryImpl implements CommitFactory {
 
         for (RawChange change : rawCommit.getChanges()) {
             Change convertedChange = changeFactory.createChange(change);
-            convertedChange.visit(changeValidator);
+            convertedChange.acceptVisitor(changeValidator);
         }
 
         commit.setChanges(changeValidator.getValidatedChanges());

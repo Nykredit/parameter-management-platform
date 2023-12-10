@@ -11,5 +11,5 @@ public interface Change {
 
     void undo(CommitDirector commitDirector);
 
-    void visit(ChangeVisitor changeVisitor);
+    void acceptVisitor(ChangeVisitor changeVisitor);
 }

@@ -103,7 +103,7 @@ public class ParameterChange implements Change {
     }
 
     @Override
-    public void visit(ChangeVisitor changeVisitor) {
+    public void acceptVisitor(ChangeVisitor changeVisitor) {
         changeVisitor.visit(this);
     }
 }

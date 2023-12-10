@@ -29,7 +29,6 @@ public class CommitRevert implements Change {
         if (commitHash == 0) {
             throw new IllegalArgumentException("rommitHash cannot be 0 when applying revert");
         }
-        
 
         AuditLog auditLog = commitDirector.getAuditLog();
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
@@ -104,7 +103,7 @@ public class CommitRevert implements Change {
     }
 
     @Override
-    public void visit(ChangeVisitor changeVisitor) {
+    public void acceptVisitor(ChangeVisitor changeVisitor) {
         changeVisitor.visit(this);
     }
 }

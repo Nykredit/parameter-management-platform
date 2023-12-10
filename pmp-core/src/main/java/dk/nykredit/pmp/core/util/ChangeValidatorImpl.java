@@ -3,8 +3,6 @@ package dk.nykredit.pmp.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.CommitRevert;
@@ -14,16 +12,14 @@ import dk.nykredit.pmp.core.commit.ParameterRevert;
 public class ChangeValidatorImpl implements ChangeValidator {
 
     ServiceInfo serviceInfo;
-
-    @Inject
     AuditLog auditLog;
 
     private List<Change> validatedChanges;
 
-    public ChangeValidatorImpl() {
+    public ChangeValidatorImpl(AuditLog auditLog, ServiceInfo serviceInfo) {
+        this.auditLog = auditLog;
+        this.serviceInfo = serviceInfo;
         validatedChanges = new ArrayList<Change>();
-        ServiceInfoProvider serviceInfoProvider = new ServiceInfoProviderImpl();
-        serviceInfo = serviceInfoProvider.getServiceInfo();
     }
 
     public List<Change> getValidatedChanges() {
