@@ -1,5 +1,7 @@
 package dk.nykredit.pmp.core.remote.json.raw_types;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import dk.nykredit.pmp.core.commit.Service;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class RawParameterRevert implements RawChange {
     private String parameterName;
+    @JsonProperty("commitReference")
     private long commitHash;
     private String revertType;
     private Service service;
@@ -37,15 +40,19 @@ public class RawParameterRevert implements RawChange {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RawParameterRevert)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof RawParameterRevert))
+            return false;
 
         RawParameterRevert that = (RawParameterRevert) o;
 
-        if (commitHash != that.commitHash) return false;
+        if (commitHash != that.commitHash)
+            return false;
         if (parameterName != null ? !parameterName.equals(that.parameterName) : that.parameterName != null)
             return false;
-        if (revertType != null ? !revertType.equals(that.revertType) : that.revertType != null) return false;
+        if (revertType != null ? !revertType.equals(that.revertType) : that.revertType != null)
+            return false;
         return service != null ? service.equals(that.service) : that.service == null;
     }
 

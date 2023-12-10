@@ -2,6 +2,7 @@ package dk.nykredit.pmp.core.commit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class TestChangeDeserializer {
     private WeldContainer container;
     private CommitDirector commitDirector;
 
-
     @BeforeEach
     public void setupMapper() {
 
@@ -59,7 +59,7 @@ public class TestChangeDeserializer {
         expectedChange.setOldValue("1");
         expectedChange.setType("integer");
         expectedChange.setId("id");
-        expectedChange.setService(new Service("testServiceName","testServiceAddress", "testServiceEnvironment"));
+        expectedChange.setService(new Service("testServiceName", "testServiceAddress", "testServiceEnvironment"));
 
         String json = mapper.writeValueAsString(expectedChange);
         RawChange change = mapper.readValue(json, RawParameterChange.class);
@@ -74,9 +74,9 @@ public class TestChangeDeserializer {
         expectedRevert.setParameterName("test1");
         expectedRevert.setCommitHash("10AC");
         expectedRevert.setRevertType("parameter");
-        expectedRevert.setService(new Service("testServiceName","testServiceAddress", "testServiceEnvironment"));
+        expectedRevert.setService(new Service("testServiceName", "testServiceAddress", "testServiceEnvironment"));
 
-        String json = "{\"parameterName\":\"test1\",\"commitHash\":\"10AC\",\"revertType\":\"parameter\",\"service\":{\"name\":\"testServiceName\",\"address\":\"testServiceAddress\",\"environment\":\"testServiceEnvironment\"}}";
+        String json = "{\"parameterName\":\"test1\",\"commitReference\":\"10AC\",\"revertType\":\"parameter\",\"service\":{\"name\":\"testServiceName\",\"address\":\"testServiceAddress\",\"environment\":\"testServiceEnvironment\"}}";
         RawParameterRevert revert = mapper.readValue(json, RawParameterRevert.class);
 
         assertEquals(expectedRevert, revert);
@@ -84,9 +84,8 @@ public class TestChangeDeserializer {
 
     @Test
     public void testDeserializeRawCommitRevert() throws JsonProcessingException {
-        
-        String json = "{\"commitHash\":\"10\"}";
 
+        String json = "{\"commitReference\":\"10\"}";
 
         RawCommitRevert expectedRevert = new RawCommitRevert();
         expectedRevert.setCommitHash("10");
@@ -103,11 +102,11 @@ public class TestChangeDeserializer {
         expectedAffectedServices.add("service1");
         List<RawChange> expectedChanges = new ArrayList<RawChange>();
 
-
         RawCommit expectedCommit = new RawCommit();
         expectedCommit.setUser("author");
         expectedCommit.setMessage("test commit");
-        expectedCommit.setPushDate("2020-05-05T12:00:00");
+        // expectedCommit.setPushDate("2020-05-05T12:00:00");
+        expectedCommit.setPushDate(LocalDateTime.parse("2020-05-05T12:00:00"));
         expectedCommit.setAffectedServices(expectedAffectedServices);
         RawParameterChange change1 = new RawParameterChange();
         change1.setName("test1");

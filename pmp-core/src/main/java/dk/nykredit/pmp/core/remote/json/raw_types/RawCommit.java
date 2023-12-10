@@ -16,9 +16,9 @@ public class RawCommit {
 
     private List<RawChange> changes;
 
-    public void setPushDate(String pushDate) {
-        this.pushDate = LocalDateTime.parse(pushDate);
-    }
+    // public void setPushDate(String pushDate) {
+    // this.pushDate = LocalDateTime.parse(pushDate);
+    // }
 
     @Override
     public String toString() {
@@ -33,15 +33,21 @@ public class RawCommit {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RawCommit)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof RawCommit))
+            return false;
 
         RawCommit rawCommit = (RawCommit) o;
 
-        if (pushDate != null ? !pushDate.equals(rawCommit.pushDate) : rawCommit.pushDate != null) return false;
-        if (user != null ? !user.equals(rawCommit.user) : rawCommit.user != null) return false;
-        if (message != null ? !message.equals(rawCommit.message) : rawCommit.message != null) return false;
-        if (affectedServices != null ? !affectedServices.equals(rawCommit.affectedServices) : rawCommit.affectedServices != null)
+        if (pushDate != null ? !pushDate.equals(rawCommit.pushDate) : rawCommit.pushDate != null)
+            return false;
+        if (user != null ? !user.equals(rawCommit.user) : rawCommit.user != null)
+            return false;
+        if (message != null ? !message.equals(rawCommit.message) : rawCommit.message != null)
+            return false;
+        if (affectedServices != null ? !affectedServices.equals(rawCommit.affectedServices)
+                : rawCommit.affectedServices != null)
             return false;
         return changes != null ? changes.equals(rawCommit.changes) : rawCommit.changes == null;
     }

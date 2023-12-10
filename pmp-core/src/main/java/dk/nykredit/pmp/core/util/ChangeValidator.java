@@ -13,22 +13,25 @@ import dk.nykredit.pmp.core.commit.ParameterRevert;
 
 public class ChangeValidator implements ChangeVisitor {
 
+    // @Inject
+    // ServiceInfoProvider serviceInfoProvider;
+
     ServiceInfo serviceInfo;
 
     @Inject
     AuditLog auditLog;
 
-
-
     private List<Change> validatedChanges;
-    
-    public ChangeValidator(ServiceInfo serviceInfo) {
-        this.serviceInfo = serviceInfo;
-        validatedChanges = new ArrayList<Change>();
-    }
+
+    // public ChangeValidator(ServiceInfo serviceInfo) {
+    // this.serviceInfo = serviceInfo;
+    // validatedChanges = new ArrayList<Change>();
+    // }
 
     public ChangeValidator() {
         validatedChanges = new ArrayList<Change>();
+        ServiceInfoProvider serviceInfoProvider = new ServiceInfoProviderImpl();
+        serviceInfo = serviceInfoProvider.getServiceInfo();
     }
 
     public List<Change> getValidatedChanges() {
@@ -37,9 +40,9 @@ public class ChangeValidator implements ChangeVisitor {
 
     @Override
     public void visit(ParameterChange change) {
-        
-        if (change.getService() == null || 
-            change.getService().getPmpRoot() == null) {
+
+        if (change.getService() == null ||
+                change.getService().getPmpRoot() == null) {
 
             throw new IllegalArgumentException("PmpRoot cannot be null");
         }
@@ -48,11 +51,10 @@ public class ChangeValidator implements ChangeVisitor {
             throw new IllegalArgumentException("ServicePmpRoot cannot be null");
         }
 
-
         if (!change.getService().getPmpRoot().equals(serviceInfo.getPmpRoot())) {
             return;
         }
-        
+
         validatedChanges.add(change);
         return;
     }
@@ -60,12 +62,12 @@ public class ChangeValidator implements ChangeVisitor {
     @Override
     public void visit(ParameterRevert change) {
 
-        if (change.getService() == null || 
-            change.getService().getPmpRoot() == null) {
-                
+        if (change.getService() == null ||
+                change.getService().getPmpRoot() == null) {
+
             throw new IllegalArgumentException("PmpRoot cannot be null");
         }
-        
+
         if (!change.getService().getPmpRoot().equals(serviceInfo.getPmpRoot())) {
             return;
         }
@@ -76,7 +78,7 @@ public class ChangeValidator implements ChangeVisitor {
 
     @Override
     public void visit(CommitRevert change) {
-        
+
         if (auditLog.getAuditLogEntry(change.getCommitHash()) == null) {
             return;
         }
