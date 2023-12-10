@@ -4,4 +4,6 @@ RUN mkdir /opt/app
 COPY . /opt/app/
 WORKDIR /opt/app
 RUN mvn clean install -am
-CMD [ "mvn", "-pl", "example-service" , "exec:java" ]
+
+#mvn -Ddk.nykredit.pmp.core.trackerurl=http://servicevm3-datp3.datalogi.net:62463 -pl example-service verify exec:java
+CMD [ "mvn", "-Ddk.nykredit.pmp.core.trackerurl=http://servicevm3-datp3.datalogi.net:62463", "-pl", "example-service" , "exec:java" ]
