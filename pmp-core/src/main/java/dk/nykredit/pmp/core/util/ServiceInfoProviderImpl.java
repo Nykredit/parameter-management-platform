@@ -1,10 +1,10 @@
 package dk.nykredit.pmp.core.util;
 
-import java.io.InputStream;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import dk.nykredit.pmp.core.remote.json.ObjectMapperFactory;
+
+import javax.inject.Inject;
+import java.io.InputStream;
 
 public class ServiceInfoProviderImpl implements ServiceInfoProvider {
 
@@ -52,6 +52,5 @@ public class ServiceInfoProviderImpl implements ServiceInfoProvider {
         } catch (Exception e) {
             throw new Error(e);
         }
-        return null;
     }
 }
