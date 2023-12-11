@@ -20,11 +20,17 @@ public class Commit {
     private String user;
     private String message;
     private List<String> affectedServices;
+    private long commitHash;
 
     private List<Change> changes;
 
     @JsonIgnore
     private List<ChangeEntity> appliedChanges;
+
+    public Commit() {
+        changes = new ArrayList<>();
+        affectedServices = new ArrayList<>();
+    }
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
@@ -72,6 +78,10 @@ public class Commit {
                 + message.hashCode()
                 + changes.stream().mapToInt(Change::hashCode).sum();
 
+    }
+
+    public List<Change> getChanges() {
+        return changes;
     }
 
     @Override
