@@ -13,36 +13,61 @@ The repository is split into 4 parts:
 
 ## Running The Project
 
-To simply see the project in action, go to <https://datalogi.net>. To set it up locally, see the guide below.
+To see the project in action, go to <https://datalogi.net>. To set it up locally, see the guide below.
+
+### With docker compose
+
+To run the project with docker compose, simply run `./full-build-and-run.sh`. This will spin up a client, tracker and 6 services. The client will be available at <http://localhost:4173>.
+
+Dependencies:
+
+- Docker
+- Docker compose
+- Maven
+- Java 11
+
+### Manual setip
 
 Running the project has 3 steps. A quick guide is provided below, but for more detailed instructions, see the `README.md` in each of the subfolders.
 
+Dependencies:
+
+- Docker
+- Maven
+- Java 11
+  - The project was developed with java 11, but should be compatible with any later version
+- Node
+- Npm
+
 1. Start the tracker
+
    - Requires docker
 
-```shell
-cd pmp-tracker
-docker build -t pmp-tracker .
-docker run -p 8080:8080 pmp-tracker
-```
+   ```shell
+   cd pmp-tracker
+   docker build -t pmp-tracker .
+   docker run -p 8080:8080 pmp-tracker
+   ```
 
 2. Start the example service
+
    - Requires maven and java 11
 
-```shell
-# From the project root
-mvn clean install -am # -am handles dependencies
-mvn -pl example-service verify exec:java
-```
+   ```shell
+   # From the project root
+   mvn clean install -am # -am handles dependencies
+   mvn -pl example-service verify exec:java
+   ```
 
 3. Start the client
+
    - Requires node and npm
 
-```shell
-cd pmp-client
-npm install
-npm run dev
-```
+   ```shell
+   cd pmp-client
+   npm install
+   npm run dev
+   ```
 
 Then open <http://localhost:5173>
 
