@@ -53,10 +53,6 @@ public class Commit {
         }
     }
 
-    public void undoChanges(CommitDirector commitDirector) {
-        undoChanges(appliedChanges, commitDirector);
-    }
-
     @Override
     public String toString() {
         return "Commit{" +
@@ -96,10 +92,6 @@ public class Commit {
 
         return commitHash;
 
-    }
-
-    public List<Change> getChanges() {
-        return changes;
     }
 
     @Override
