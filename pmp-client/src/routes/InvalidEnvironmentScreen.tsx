@@ -4,6 +4,7 @@ import { getTheme } from '../features/theme/themes';
 import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 
+/** Screen to display when no recognized environment has been selected */
 const InvalidEnvironmentScreen = () => {
     const setEnvironment = useSetEnvironment_UNSAFE();
 
