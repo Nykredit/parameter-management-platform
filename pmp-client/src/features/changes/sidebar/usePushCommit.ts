@@ -72,7 +72,10 @@ const usePushCommit = (commit: CommitBody) => {
             if (!services) {
                 return;
             }
-            const promises = services?.map((service) => {
+
+            const affectedServices = services.filter((service) => commit.affectedServices.includes(service.name));
+
+            const promises = affectedServices.map((service) => {
                 return mutateAsync({ service, commit });
             });
 
