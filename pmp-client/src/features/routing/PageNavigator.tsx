@@ -15,9 +15,10 @@ const PageNavigator = () => {
 
     return (
         <div className=''>
+            {/* <div className='flex gap-y-2'> */}
             {pages.map((page) => (
                 <Button
-                    className='ml-5'
+                    className='ml-5 mb-1'
                     outlined
                     key={page.label}
                     tag={Link}
